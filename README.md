@@ -6,10 +6,13 @@ Uses p5.js as graphic-backend for now, will shift to GL driven frameworks for pe
 
 -----------
 
-![Screenshot](./screenshot.png)
+![Screenshot2](./out.gif)
 
 -----------
 
+![Screenshot](./screenshot.png)
+
+-----------
 
 `npm i http-server -g`
 
