@@ -29,4 +29,4 @@ Touch & Object Recognition
 
 
 
-Note: No proprietary technology related to / developed by PingAn group is used or included. Code is for educational use only, please do not reuse / repurpose in other commercial projects.
+Note: No proprietary technology related to / developed by PingAn group is used or included. 
