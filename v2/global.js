@@ -10,6 +10,13 @@ var changables = [];
 var w = 1920;
 var h = 960;
 
+var config = {
+    simulatorFps: 15,
+    affector_range: 5,
+    super_dilute: false,
+    view: 'j'
+};
+
 var condensed = {
     allFactors: [],
     worldConfigs: []

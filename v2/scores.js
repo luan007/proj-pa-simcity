@@ -1,6 +1,5 @@
-window.affector = 10;
 var R = function (r) {
-    return r * window.affector;
+    return r * config.affector_range;
 }
 
 

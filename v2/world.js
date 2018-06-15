@@ -1,4 +1,4 @@
-
+//changables[3].calculator = template.c.bind(changables[3], 150)
 
 class Entity {
     constructor(vars, calculator, render) {
@@ -6,9 +6,9 @@ class Entity {
         this.calculator = calculator ? calculator(this) : undefined;
         this.RSIZE = 33;
         this.blocks = [];
+        this.id = condensed.allFactors.length;
         condensed.allFactors.push({});
         this.factor = condensed.allFactors[condensed.allFactors.length - 1];
-        this.computedFactor = {};
         this.noiseOffset = [
             random(-1, 1),
             random(-1, 1)
@@ -44,11 +44,15 @@ class Entity {
         this.blocks.sort((a, b) => {
             return a.r - b.r;
         });
+        this.computedFactors = undefined;
     }
 
     update(t) {
+
         this.calculator ? this.calculator(t) : 0;
         this.variables.radius += (simplex.noise3D(this.noiseOffset[0], this.noiseOffset[1], t) - 0.5) * 30;
+        this.computedFactors = computed.world ? computed.world[this.id] : undefined;
+
         // var target = 0;
         // for (target = 0; target < this.blocks.length; target++) {
         //     if (this.blocks[target].r > this.variables.radius) {
@@ -64,20 +68,6 @@ class Entity {
         // }
     }
 
-    lateUpdate(t, id) {
-        for (var j in this.factor) {
-            this.computedFactor[j] = this.computedFactor[j] || 0;
-            for (var i = id; i < this.cache.length; i++) {
-                let cur = this.cache[i];
-                if (cur.factor[j] == undefined) {
-                    continue;
-                }
-                cur.computedFactor[j] = cur.computedFactor[j] || 0;
-                this.computedFactor[j] += cur.factor[j];
-                cur.computedFactor[j] += this.factor[j];
-            }
-        }
-    }
 }
 
 //renderers
@@ -172,23 +162,33 @@ class Entity {
         for (var i = 0; i < world.length; i++) {
             world[i].render(world[i]);
         }
-        if (!simulator.busy) {
+        if (!simulator.busy && Date.now() - last > (1000 / config.simulatorFps)) { //limit simulator to 15fps
             simulator.busy = true;
-            simulator.heatMap([condensed, chunks, t]).then((dt) => {
-                // tick
+            simulator.heatMap([condensed, chunks, t, config]).then((dt) => {
                 // var cur = Date.now() - last;
-                // last = Date.now();
+                last = Date.now();
                 // console.log(1000 / cur);
+                // var restored = JSON.parse(pako.inflate(dt, { to: 'string' }));
+                computed.aspects = dt.aspects;
+                computed.world = dt.world;
+                for (var i = 0; i < computed.aspects.length; i++) {
+                    for (var j in computed.aspects[i]) {
+                        computed.aspects[i][j] /= 10;
+                    }
+                }
                 simulator.busy = false;
-                computed.aspects = dt;
             });
         }
-        simulator2.globalSimulation(condensed).then(() => {
-            //tick
-            // var cur = Date.now() - last;
-            // last = Date.now();
-            // console.log(1000 / cur);
-        });
+        // if (!simulator2.busy) {
+        //     simulator2.globalSimulation([condensed]).then((d) => {
+        //         //tick
+        //         // var cur = Date.now() - last;
+        //         // last = Date.now();
+        //         // console.log(1000 / cur);
+        //         computed.world = d;
+        //         simulator2.busy = false;
+        //     });
+        // }
     }
 
 }

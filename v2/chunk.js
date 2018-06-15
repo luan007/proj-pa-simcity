@@ -32,24 +32,24 @@ class Chunk {
     }
     update() {
         this.aspects = computed.aspects[this.id] || {};
-        for (var i in this.aspects) {
+        for(var i in this.aspects) {
+            this.aspectEase[i] = this.aspectEase[i] || 0;
+        }
+        for (var i in this.aspectEase) {
             this.aspectEase[i] = ease(
-                this.aspectEase[i] || 0, this.aspects[i], 0.2
+                this.aspectEase[i] || 0, this.aspects[i] || 0, 0.2
             )
         }
     }
     render(t) {
-        var val = this.aspectEase[window.asp] || 0;
-
+        var val = this.aspectEase[config.view] || 0;
         var green = min((max(val, 0) * 15), 255) & 255;
         var red = min((max(-val, 0) * 15), 255) & 255;
-
-        var rgb = hslToRgb(0.6, 0.8, min(0.2, max(0, val / 20)));
+        var rgb = hslToRgb(0.6, 1, min(0.2, max(0, val / 12)));
         if(val < 0) {
-            rgb = hslToRgb(0, 0.8, min(0.2, max(0, -val / 20)));
+            rgb = hslToRgb(0, 1, min(0.2, max(0, -val / 12)));
         }
         var blue = 0;
-
         // (min(noise(this.position[0] / 1000, this.position[1] / 1000, t) * 255, 255)) & 255;
         // if (red > 50 || green > 50) {
         //     fill(red, green, 0);
@@ -71,7 +71,7 @@ class ConvFilter {
         this.aspects = {};
         this.aspectEase = {};
         this.sprite = new PIXI.Sprite(rectTexture);
-        // chunk_container.addChild(this.sprite);
+        chunk_container.addChild(this.sprite);
         this.sprite.anchor.x = 0.5;
         this.sprite.anchor.y = 0.5;
         this.sprite.scale.x = 1.4;
@@ -105,7 +105,7 @@ class ConvFilter {
         }
     }
     render(t) {
-        var val = this.aspectEase[window.asp] || 0;
+        var val = this.aspectEase[config.view] || 0;
         
         val = val < -30 ? -10 : 0;
 
@@ -121,6 +121,7 @@ class ConvFilter {
         //     rect(this.position[0] - blockSize / 2 + 1,
         //         1 + this.position[1] - blockSize / 2, blockSize - 2, blockSize - 2);
         // }
+        this.sprite.alpha = this.sprite.opacity = rgb[0];
         this.sprite.tint = (rgb[0] << 16) + (rgb[1] << 8) + rgb[2];
     }
 }
