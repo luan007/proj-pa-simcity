@@ -7,10 +7,7 @@
     <script language="javascript" type="text/javascript" src="libraries/simplex.js"></script>
     <script language="javascript" type="text/javascript" src="libraries/quicknoise.js"></script>
     <script language="javascript" type="text/javascript" src="libraries/pixi.min.js"></script>
-    <script language="javascript" type="text/javascript" src="libraries/p5.js"></script>
-    <script language="javascript" type="text/javascript" src="logic.js"></script>
-    <script language="javascript" type="text/javascript" src="util.js"></script>
-    <!-- <script language="javascript" type="text/javascript" src="entity.js"></script> -->
+    <script language="javascript" type="text/javascript" src="libraries/util.js"></script>
     <!-- OK, YOU CAN MAKE CHANGES BELOW THIS LINE AGAIN -->
 
     <!-- This line removes any default padding and style. 
@@ -54,12 +51,15 @@
             height: 1080px;
             top: 0;
             left: 0;
-
             opacity: 0;
         }
 
         canvas {
             opacity: 1;
+        }
+
+        #defaultcanvas0 {
+            mix-blend-mode: screen;
         }
     </style>
 </head>
@@ -621,7 +621,14 @@
     <div class="container">
         <img id='logo' src="./assets/Ping_An_Logo.svg" alt="">
     </div>
-    <script language="javascript" type="text/javascript" src="buildings.js"></script>
+
+    <script language="javascript" type="text/javascript" src="libraries/p5.js"></script>
+    <script language="javascript" type="text/javascript" src="global.js"></script>
+    <script language="javascript" type="text/javascript" src="scores.js"></script>
+    <script language="javascript" type="text/javascript" src="chunk.js"></script>
+    <script language="javascript" type="text/javascript" src="world.js"></script>
+    <script language="javascript" type="text/javascript" src="vfx.js"></script>
+    <script language="javascript" type="text/javascript" src="entry.js"></script>
 
 </body>
 

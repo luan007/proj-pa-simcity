@@ -23,7 +23,6 @@ function hslToRgb(h, s, l) {
     return [r * 255, g * 255, b * 255];
 }
 
-
 var world = [];
 var simplex = new SimplexNoise('seed');
 var buildings = [];
@@ -33,7 +32,6 @@ var h = 960;
 var dw = 1920;
 var dh = 1080;
 var app = new PIXI.Application({ width: dw, height: dh });
-console.log(PIXI.Color);
 
 var chunk_container = new PIXI.Container();
 app.stage.addChild(chunk_container);
@@ -127,7 +125,7 @@ class Entity {
 
     update(t) {
         this.calculator ? this.calculator(t) : 0;
-        this.variables.radius += (noise(this.noiseOffset[0], this.noiseOffset[1], t) - 0.5) * 30;
+        this.variables.radius += (simplex.noise3D(this.noiseOffset[0], this.noiseOffset[1], t) - 0.5) * 30;
         var target = 0;
         for (target = 0; target < this.blocks.length; target++) {
             if (this.blocks[target].r > this.variables.radius) {
@@ -138,8 +136,7 @@ class Entity {
             var b = this.blocks[i];
             var nz = (simplex.noise3D(this.noiseOffset[0] + b.block.position[1] / 1000, this.noiseOffset[1] + b.block.position[0] / 1000, t / 1) * 0.2 + 0.5);
             for (var j in this.factor) {
-                b.block.aspects[j] += this.factor[j] * b.decay *
-                    nz;
+                b.block.aspects[j] += this.factor[j] * b.decay * nz;
             }
         }
     }
