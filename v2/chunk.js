@@ -12,7 +12,8 @@ class Chunk {
             position[0] * blockSize + blockSize / 2,
             position[1] * blockSize + blockSize / 2
         ];
-        this.aspects = {};
+        this.id = chunks.positions.length;
+        chunks.positions.push(this.position);
         this.aspectEase = {};
         this.sprite = new PIXI.Sprite(rectTexture);
         chunk_container.addChild(this.sprite);
@@ -24,12 +25,13 @@ class Chunk {
         this.sprite.position.y = this.position[1];
     }
     reset() {
-        this.counter = 0;
-        for (var i in this.aspects) {
-            this.aspects[i] = 0;
-        }
+        // this.counter = 0;
+        // for (var i in this.aspects) {
+        //     this.aspects[i] = 0;
+        // }
     }
     update() {
+        this.aspects = computed.aspects[this.id] || {};
         for (var i in this.aspects) {
             this.aspectEase[i] = ease(
                 this.aspectEase[i] || 0, this.aspects[i], 0.2

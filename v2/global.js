@@ -10,6 +10,19 @@ var changables = [];
 var w = 1920;
 var h = 960;
 
+var condensed = {
+    allFactors: [],
+    worldConfigs: []
+};
+
+var chunks = {
+    positions: []
+};
+
+var computed = {
+    aspects: []
+};
+
 var dw = 1920;
 var dh = 1080;
 

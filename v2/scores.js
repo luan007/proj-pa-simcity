@@ -1,85 +1,100 @@
+window.affector = 10;
 var R = function (r) {
-    return r * 4;
+    return r * window.affector;
 }
+
+
+/**
+ * h: housing
+ * t: traffic
+ * ec: economy
+ * j: job
+ * m: medicare
+ * i: income
+ * hp: house-price
+ * ed: education
+ * en: environment
+ */
+
 
 var template = {
     c: function (size) { //commercial
         this.variables.radius = R(5 + size * 10);
-        this.factor["housing"] = -1 * size;
-        this.factor["traffic"] = -0.1 * size;
-        this.factor["economy"] = +1 + 3 * size;
-        this.factor["job"] = -1 - 3 * size;
-        this.factor["medicare"] = -0.01 * size;
-        this.factor["environment"] = -0.1 * size * size;
-        this.factor["income"] = -0.5 + size * 0.2;
-        this.factor["housePrice"] = 0.4 * size;
+        this.factor["h"] = -1 * size;
+        this.factor["t"] = -0.1 * size;
+        this.factor["ec"] = +1 + 3 * size;
+        this.factor["j"] = -1 - 3 * size;
+        this.factor["m"] = -0.01 * size;
+        this.factor["en"] = -0.1 * size * size;
+        this.factor["i"] = -0.5 + size * 0.2;
+        this.factor["hp"] = 0.4 * size;
     },
-    e: function (size) { //education
+    e: function (size) { //ed
         this.variables.radius = R(5 + size * 10);
-        this.factor["housing"] = -3 * size;
-        this.factor["income"] = 1 + size * 2;
-        this.factor["medicare"] = -0.5 * size;
-        this.factor["environment"] = +0.5 * size * size;
-        this.factor["traffic"] = -0.3 * size;
-        this.factor["housePrice"] = 2 * size;
-        this.factor["economy"] = 3 * size; //30亿
-        this.factor["education"] = 2 * size;
-        this.factor["job"] = -1 - 2 * log(size);
+        this.factor["h"] = -3 * size;
+        this.factor["i"] = 1 + size * 2;
+        this.factor["m"] = -0.5 * size;
+        this.factor["en"] = +0.5 * size * size;
+        this.factor["t"] = -0.3 * size;
+        this.factor["hp"] = 2 * size;
+        this.factor["ec"] = 3 * size; //30亿
+        this.factor["ed"] = 2 * size;
+        this.factor["j"] = -1 - 2 * log(size);
     },
     b: function (size) { //biz
         this.variables.radius = R(2 + size * 10);
-        this.factor["housing"] = -5 * size;
-        this.factor["income"] = 1 + log(size) * 2;
-        this.factor["medicare"] = -0.7 * size; //10%
-        this.factor["traffic"] = -0.6 * size; //10%
-        this.factor["housePrice"] = 1.2 * size; //10%
-        this.factor["environment"] = -0.3;
-        this.factor["economy"] = 5 * size * size;
-        this.factor["job"] = -2 - 5 * log(size);
+        this.factor["h"] = -5 * size;
+        this.factor["i"] = 1 + log(size) * 2;
+        this.factor["m"] = -0.7 * size; //10%
+        this.factor["t"] = -0.6 * size; //10%
+        this.factor["hp"] = 1.2 * size; //10%
+        this.factor["en"] = -0.3;
+        this.factor["ec"] = 5 * size * size;
+        this.factor["j"] = -2 - 5 * log(size);
     },
     t: function (size) { //tech
         this.variables.radius = R(3 + size * 10);
-        this.factor["income"] = 2 + log(size) * 5;
-        this.factor["housing"] = -0.5 * size; //人
-        this.factor["medicare"] = -0.2 * size; //10%
-        this.factor["traffic"] = -0.2 * size; //10%
-        this.factor["housePrice"] = 1 * size; //10%
-        this.factor["environment"] = +1.1 * size * size;
-        this.factor["economy"] = 5 * size * size;
-        this.factor["job"] = -3 - 2 * log(size);
+        this.factor["i"] = 2 + log(size) * 5;
+        this.factor["h"] = -0.5 * size; //人
+        this.factor["m"] = -0.2 * size; //10%
+        this.factor["t"] = -0.2 * size; //10%
+        this.factor["hp"] = 1 * size; //10%
+        this.factor["en"] = +1.1 * size * size;
+        this.factor["ec"] = 5 * size * size;
+        this.factor["j"] = -3 - 2 * log(size);
     },
     m: function (size) { //HOUSE!
         this.variables.radius = R(10 + size * 5);
-        this.factor["medicare"] = -0.5 * size; //10%
-        this.factor["traffic"] = -0.8 * size; //10%
-        this.factor["education"] = -0.3 * size;
-        this.factor["environment"] = -0.1 * size * size;
-        this.factor["job"] = 3 * size;
-        this.factor["housing"] = size * 2;
-        this.factor["housePrice"] = 1 / ((size) + 1); //10%
+        this.factor["m"] = -0.5 * size; //10%
+        this.factor["t"] = -0.8 * size; //10%
+        this.factor["ed"] = -0.3 * size;
+        this.factor["en"] = -0.1 * size * size;
+        this.factor["j"] = 3 * size;
+        this.factor["h"] = size * 2;
+        this.factor["hp"] = 1 / ((size) + 1); //10%
     },
     h: function (size) { //hospital!
         this.variables.radius = R(10 + size * 5);
-        this.factor["medicare"] = 1.2 * size; //10%
-        this.factor["job"] = -2 * size;
-        this.factor["traffic"] = -0.3 * size; //10%
-        this.factor["housing"] = -0.2 * size;
+        this.factor["m"] = 1.2 * size; //10%
+        this.factor["j"] = -2 * size;
+        this.factor["t"] = -0.3 * size; //10%
+        this.factor["h"] = -0.2 * size;
     },
     s: function (size) { //schoool!        
         this.variables.radius = R(2 + size * 5);
-        this.factor["education"] = 1.3 * size * size; //10%
-        this.factor["job"] = -0.5 * size;
-        this.factor["traffic"] = -0.2 * size; //10%
-        this.factor["housing"] = -0.1 * size;
-        this.factor["housePrice"] = 2 * size; //10%
+        this.factor["ed"] = 1.3 * size * size; //10%
+        this.factor["j"] = -0.5 * size;
+        this.factor["t"] = -0.2 * size; //10%
+        this.factor["h"] = -0.1 * size;
+        this.factor["hp"] = 2 * size; //10%
     },
     n: function (size) { //special    
         this.variables.radius = R(3 + size * 5);
-        this.factor["economy"] = 0.5 * size;
-        this.factor["job"] = -1 * size;
-        this.factor["traffic"] = -0.1 * size; //10%
-        this.factor["housing"] = -0.3 * size;
-        this.factor["environment"] = -2 * size;
+        this.factor["ec"] = 0.5 * size;
+        this.factor["j"] = -1 * size;
+        this.factor["t"] = -0.1 * size; //10%
+        this.factor["h"] = -0.3 * size;
+        this.factor["en"] = -2 * size;
     }
 };
 

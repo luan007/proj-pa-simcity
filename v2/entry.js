@@ -1,7 +1,7 @@
 function setup() {
     createCanvas(dw, dh);
     frameRate(60);
-    smooth(7);
+    smooth(5);
 
     window.cv = {
         buildings: createGraphics(dw, dh),

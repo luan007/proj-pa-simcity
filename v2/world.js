@@ -1,11 +1,14 @@
 
+
 class Entity {
     constructor(vars, calculator, render) {
         this.render = render || this.default_render;
         this.calculator = calculator ? calculator(this) : undefined;
         this.RSIZE = 33;
         this.blocks = [];
-        this.factor = {};
+        condensed.allFactors.push({});
+        this.factor = condensed.allFactors[condensed.allFactors.length - 1];
+        this.computedFactor = {};
         this.noiseOffset = [
             random(-1, 1),
             random(-1, 1)
@@ -16,13 +19,14 @@ class Entity {
             rotation: 0,
             size: 1,
             radius: 150,
-            distance_decay: 0
+            distance_decay: this.decay,
+            noiseOffset: this.noiseOffset
         };
-
         for (var i in vars) {
             this.variables[i] = vars[i];
         }
-
+        condensed.worldConfigs.push(this.variables);
+        this.cache = [];
     }
 
     init() {
@@ -45,17 +49,32 @@ class Entity {
     update(t) {
         this.calculator ? this.calculator(t) : 0;
         this.variables.radius += (simplex.noise3D(this.noiseOffset[0], this.noiseOffset[1], t) - 0.5) * 30;
-        var target = 0;
-        for (target = 0; target < this.blocks.length; target++) {
-            if (this.blocks[target].r > this.variables.radius) {
-                break;
-            }
-        }
-        for (var i = 0; i < target; i++) {
-            var b = this.blocks[i];
-            var nz = (simplex.noise3D(this.noiseOffset[0] + b.block.position[1] / 1000, this.noiseOffset[1] + b.block.position[0] / 1000, t / 1) * 0.2 + 0.5);
-            for (var j in this.factor) {
-                b.block.aspects[j] += this.factor[j] * b.decay * nz;
+        // var target = 0;
+        // for (target = 0; target < this.blocks.length; target++) {
+        //     if (this.blocks[target].r > this.variables.radius) {
+        //         break;
+        //     }
+        // }
+        // for (var i = 0; i < target; i++) {
+        //     var b = this.blocks[i];
+        //     var nz = (simplex.noise3D(this.noiseOffset[0] + b.block.position[1] / 1000, this.noiseOffset[1] + b.block.position[0] / 1000, t / 1) * 0.2 + 0.5);
+        //     for (var j in this.factor) {
+        //         b.block.aspects[j] += this.factor[j] * b.decay * nz;
+        //     }
+        // }
+    }
+
+    lateUpdate(t, id) {
+        for (var j in this.factor) {
+            this.computedFactor[j] = this.computedFactor[j] || 0;
+            for (var i = id; i < this.cache.length; i++) {
+                let cur = this.cache[i];
+                if (cur.factor[j] == undefined) {
+                    continue;
+                }
+                cur.computedFactor[j] = cur.computedFactor[j] || 0;
+                this.computedFactor[j] += cur.factor[j];
+                cur.computedFactor[j] += this.factor[j];
             }
         }
     }
@@ -88,7 +107,7 @@ class Entity {
         cv.buildings.noStroke();
         cv.buildings.rectMode(CENTER);
         cv.buildings.rotate(radians(this.variables.rotation));
-        cv.buildings.rect( 0, this.RSIZE, this.RSIZE);
+        cv.buildings.rect(0, this.RSIZE, this.RSIZE);
         cv.buildings.pop();
 
     }
@@ -145,6 +164,7 @@ class Entity {
         }
     }
 
+    var last = Date.now();
     function updateWorld(t) {
         for (var i = 0; i < world.length; i++) {
             world[i].update(t);
@@ -152,6 +172,23 @@ class Entity {
         for (var i = 0; i < world.length; i++) {
             world[i].render(world[i]);
         }
+        if (!simulator.busy) {
+            simulator.busy = true;
+            simulator.heatMap([condensed, chunks, t]).then((dt) => {
+                // tick
+                // var cur = Date.now() - last;
+                // last = Date.now();
+                // console.log(1000 / cur);
+                simulator.busy = false;
+                computed.aspects = dt;
+            });
+        }
+        simulator2.globalSimulation(condensed).then(() => {
+            //tick
+            // var cur = Date.now() - last;
+            // last = Date.now();
+            // console.log(1000 / cur);
+        });
     }
 
 }
