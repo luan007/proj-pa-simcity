@@ -1,5 +1,8 @@
 //changables[3].calculator = template.c.bind(changables[3], 150)
 
+var building_container = new PIXI.Container();
+app.stage.addChild(building_container);
+
 class Entity {
     constructor(vars, calculator, render) {
         this.render = render || this.default_render;
@@ -26,10 +29,61 @@ class Entity {
             this.variables[i] = vars[i];
         }
         condensed.worldConfigs.push(this.variables);
+
+
+
+        this._group = new PIXI.Container();
+        this._group.position.x = this.variables.position[0];
+        this._group.position.y = this.variables.position[1] + this.RSIZE / 2;
+
+        this._rotator = new PIXI.Container();
+        this._rotator.rotation = (this.variables.rotation % 180) / 360 * PI * 2;
+
+        this.sprite = new PIXI.Sprite(rectTexture);
+        this.csprite = new PIXI.Sprite(circleTexture);
+        this.title = new PIXI.Text(this.variables.name, {
+            fontFamily: 'PingFang SC',
+            fontSize: 10,
+            fill: 0xffffff,
+            align: 'left'
+        });
+
+        this.title.position.y = -30;
+
+        chunk_container.addChild(this._group);
+        this._group.addChild(this._rotator);
+        this._rotator.addChild(this.csprite);
+        this._rotator.addChild(this.sprite);
+        this._rotator.addChild(this.title);
+
+        this.sprite.anchor.x = 0.5;
+        this.sprite.anchor.y = 0.5;
+        this.sprite.scale.x = 0.82;
+        this.sprite.scale.y = 0.82;
+        this.sprite.alpha = 0.3;
+
+        this.csprite.anchor.x = 0.5;
+        this.csprite.anchor.y = 0.5;
+        this.csprite.scale.x = 0.12;
+        this.csprite.scale.y = 0.12;
+        this.csprite.alpha = 0.3;
         this.cache = [];
+        this.highlit = false;
+
+
     }
 
     init() {
+        
+        // for (var i = 0; i < world.length; i += 1) {
+        //     window.lineCount = window.lineCount || 0;
+        //     var line = new PIXI.Graphics();
+        //     line.lineStyle(1, 0xffffff)
+        //         .moveTo(this.variables.position[0], this.variables.position[1] + this.RSIZE / 2)
+        //         .lineTo(world[i].variables.position[0], world[i].variables.position[1] + this.RSIZE / 2);
+        //     this._lines.addChild(line);
+        // }
+
         for (var i = 0; i < le_world.length; i++) {
             var c = le_world[i];
             var d = dist(c.position[0], c.position[1], this.variables.position[0],
@@ -45,6 +99,7 @@ class Entity {
             return a.r - b.r;
         });
         this.computedFactors = undefined;
+        this.viewedFactorEase = 0;
     }
 
     update(t) {
@@ -66,6 +121,25 @@ class Entity {
         //         b.block.aspects[j] += this.factor[j] * b.decay * nz;
         //     }
         // }
+
+        if(!this.computedFactors) return;
+
+        var curFactor = abs(this.computedFactors[config.view]) || 0;
+
+
+        if (this.highlit) {
+            curFactor = curFactor;
+        } else {
+            curFactor = 0;
+        }
+
+        this.viewedFactorEase = ease(this.viewedFactorEase, curFactor * 0.1, 0.1);
+        this.csprite.scale.x = 
+        this.csprite.scale.y = this.viewedFactorEase;
+
+
+
+        this.highlit = false; //recycle!
     }
 
 }
@@ -73,16 +147,73 @@ class Entity {
 //renderers
 {
     function render_building(t) {
-        // t.default_render();
+        return;
+
+        var d = dist(this.variables.position[0], this.variables.position[1], dw / 2, dh / 2) /
+            1200;
+        // // t.default_render();
         cv.buildings.blendMode(BLEND);
-        // selectedTab = 0;
         cv.buildings.push();
-        cv.buildings.translate(this.variables.position[0], this.variables.position[1]);
-        cv.buildings.fill(255, 100);
-        cv.buildings.noStroke();
+        cv.buildings.translate(this.variables.position[0], this.variables.position[1] + 12);
+        // cv.buildings.fill(255, 180, 0);
+        // // cv.buildings.stroke(255);
+
+        // cv.buildings.push();
+        // cv.buildings.translate(30, -20);
+        // cv.buildings.fill(255);
+        // cv.buildings.noStroke();
+        // cv.buildings.text("test", 0, 0);
+        // cv.buildings.pop();
+
         cv.buildings.rectMode(CENTER);
-        cv.buildings.rotate(radians(this.variables.rotation));
+        cv.buildings.rotate(radians(this.variables.rotation) % PI);
+        cv.buildings.noFill();
+        cv.buildings.stroke(255, 100);
+
+        if (this.factor[config.view] > 0) {
+            cv.buildings.fill(0, 150, 255 * abs(this.factor[config.view]), 100);
+        } else if (this.factor[config.view] < 0) {
+            cv.buildings.fill(255 * abs(this.factor[config.view]), 50, 0, 100);
+        }
+
         cv.buildings.rect(0, 0, this.RSIZE, this.RSIZE);
+
+
+        // if(this.factor[config.view] > 0) {
+        //     let r = this.factor[config.view] * 30;
+        //     cv.buildings.noFill();
+        //     cv.buildings.stroke(0, 150, 255, 100);
+        //     cv.buildings.strokeWeight(10);
+        //     cv.buildings.ellipse(0, 0, r, r);
+
+        // }
+
+
+        cv.buildings.push();
+        cv.buildings.translate(-this.RSIZE / 2, -this.RSIZE / 2 - 3);
+        cv.buildings.fill(255, random(0.4) < abs(d - probe) ? 255 : 200);
+        cv.buildings.noStroke();
+        cv.buildings.text(this.variables.name, 0, 0);
+        cv.buildings.pop();
+
+        //draw shell
+        var rs = this.RSIZE;
+        cv.buildings.strokeWeight(1);
+        if (abs(d - probe) < 0.2 && random(0.4) < abs(d - probe)) {
+            cv.buildings.noStroke();
+            cv.buildings.rectMode(CENTER);
+            cv.buildings.fill(200, 255, 255, abs(d - probe) / 0.2 * 255);
+            cv.buildings.rect(0, 0, this.RSIZE * abs(d - probe) / 0.2, this.RSIZE * abs(d - probe) / 0.2);
+            cv.buildings.stroke(255, abs(d - probe) / 0.2 * 255);
+            for (var corner = 0; corner < 4; corner++) {
+                cv.buildings.rotate(PI / 2);
+                cv.buildings.beginShape();
+                cv.buildings.vertex(-rs / 2 + 3, -rs / 2 - 3);
+                cv.buildings.vertex(-rs / 2 - 3, -rs / 2 - 3);
+                cv.buildings.vertex(-rs / 2 - 3, -rs / 2 + 3);
+                cv.buildings.endShape();
+            }
+        }
         cv.buildings.pop();
     }
 
@@ -154,13 +285,11 @@ class Entity {
         }
     }
 
+
     var last = Date.now();
     function updateWorld(t) {
         for (var i = 0; i < world.length; i++) {
             world[i].update(t);
-        }
-        for (var i = 0; i < world.length; i++) {
-            world[i].render(world[i]);
         }
         if (!simulator.busy && Date.now() - last > (1000 / config.simulatorFps)) { //limit simulator to 15fps
             simulator.busy = true;
@@ -189,6 +318,12 @@ class Entity {
         //         simulator2.busy = false;
         //     });
         // }
+    }
+
+    function renderWorld(t) {
+        for (var i = 0; i < world.length; i++) {
+            world[i].render(world[i]);
+        }
     }
 
 }

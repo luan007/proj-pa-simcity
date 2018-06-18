@@ -15,7 +15,11 @@
     <!-- This line removes any default padding and style. 
        You might only need one of these values set. -->
     <style>
+        * {
+            touch-action: none;
+        }
         body {
+            touch-action: none;
             background: black;
         }
 
@@ -62,6 +66,8 @@
 
         #defaultcanvas0 {
             mix-blend-mode: screen;
+            pointer-events: none;
+            touch-action: none;
         }
     </style>
 </head>

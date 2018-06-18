@@ -76,7 +76,7 @@ var simulator = cw({
                 var d = Math.sqrt(
                     (p1[0] - p2[0]) * (p1[0] - p2[0]) +
                     (p1[1] - p2[1]) * (p1[1] - p2[1]));
-                if (d > radius) {
+                if (d > radius * config.simulation_radius) {
                     continue;
                 }
                 aspects[t].check += 1;
