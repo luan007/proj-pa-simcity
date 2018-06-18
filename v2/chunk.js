@@ -11,31 +11,59 @@ class TouchSelection {
         this.active = false;
         this.activeEase = 0;
         this.linked = [];
+        this.breathe = 0;
+        this.seed = random(1000);
+        this.breathe_speed = 1.5;
     }
 
-    render() {
+    render(t) {
+
+        this.breathe = (sin(t * this.breathe_speed + this.seed) * 0.5 + 0.5) * 0.3 + 1;
         this.activeEase = ease(this.activeEase, this.active ? 1 : 0, 0.2);
         // if (random(this.activeEase) < 0.3) {
         //     return;
         // }
-        var s = (config.touchZone * 2 + 1) * blockSize * this.activeEase;
-        cv.overlay.push();
-        cv.overlay.fill(255, 20);
-        cv.overlay.stroke(255, 100);
-        cv.overlay.strokeWeight(2);
-        cv.overlay.rectMode(CENTER);
-        cv.overlay.rect(this.position[0], this.position[1], s, s);
-        cv.overlay.pop();
+
+        // cv.overlay.strokeCap(SQUARE);
+        cv.overlay.blendMode(ADD);
+        if (config.lensMode == 0) {
+            var s = (config.touchZone * 2 + 1) * blockSize * this.activeEase;
+            cv.overlay.push();
+            cv.overlay.noFill();
+            // cv.overlay.fill(255, 20);
+            cv.overlay.stroke(255, 100);
+            cv.overlay.strokeWeight(2);
+            cv.overlay.rectMode(CENTER);
+            cv.overlay.rect(this.position[0], this.position[1], s, s);
+            cv.overlay.pop();
+        }
+
+        else if (config.lensMode == 1) {
+            var link = (config.linkZone * 2 + 1) * blockSize * this.activeEase;
 
 
-        var link = (config.touchZone * 3 + 1) * blockSize * this.activeEase;
+            cv.overlay.noStroke();
+            cv.overlay.fill(255, 30);
+            cv.overlay.ellipse(this.position[0], this.position[1], 150 * this.activeEase * this.breathe, 150 * this.activeEase * this.breathe);
 
-        cv.overlay.push();
-        cv.overlay.noFill();
-        cv.overlay.stroke(40, 150, 255, 100);
-        cv.overlay.strokeWeight(3);
-        cv.overlay.ellipse(this.position[0], this.position[1], link * 2, link * 2);
-        cv.overlay.pop();
+            cv.overlay.noFill();
+            cv.overlay.stroke(40, 150, 255, 100);
+            cv.overlay.strokeWeight(5);
+            cv.overlay.ellipse(this.position[0], this.position[1], link * 2, link * 2);
+            cv.overlay.strokeWeight(1);
+            cv.overlay.stroke(40, 150, 255, 255);
+            for (var i = 0; i < this.linked.length; i++) {
+                let target = this.linked[i];
+                var vec = createVector(target.variables.position[0] - this.position[0]
+                    , target.variables.position[1] + 33 / 2 - this.position[1]);
+                cv.overlay.strokeWeight(1);
+                cv.overlay.line(this.position[0], this.position[1], vec.x + this.position[0], vec.y + this.position[1])
+                var heading = vec.heading();
+                var mag = vec.mag();
+                cv.overlay.strokeWeight(max(0, 10 - mag / 30) + 1);
+                cv.overlay.arc(this.position[0], this.position[1], link * 0.5, link * 0.5, heading - 0.2, heading + 0.2);
+            }
+        }
     }
 
     update() {
@@ -43,15 +71,19 @@ class TouchSelection {
         if (this.linked.length > 0) {
             this.linked = [];
         }
-        
+
         if (!this.active) {
             return;
         }
 
-        for (var i = 0; i < world.length; i++) {
-            if (dist(world[i].variables.position[0], world[i].variables.position[1] + 33 / 2,
-                this.position[0], this.position[1]) < (config.touchZone * 3 + 1) * blockSize) {
-                world[i].highlit = true;
+        if (config.lensMode == 1) {
+            for (var i = 0; i < world.length; i++) {
+                if (world[i].computedFactors && world[i].computedFactors[config.view] &&
+                    dist(world[i].variables.position[0], world[i].variables.position[1] + 33 / 2,
+                        this.position[0], this.position[1]) < (config.linkZone * 2 + 1) * blockSize) {
+                    world[i].highlit = true;
+                    this.linked.push(world[i]);
+                }
             }
         }
     }
@@ -77,6 +109,9 @@ class Chunk {
         this.sprite.position.x = this.position[0];
         this.sprite.position.y = this.position[1];
         this.val = 0;
+        this.targetColor = [0, 0, 0];
+        this.color = [0, 0, 0];
+        this.targetOpacity = 0;
     }
     reset() {
         // this.counter = 0;
@@ -97,6 +132,10 @@ class Chunk {
         this.target = (this.aspects[config.view] || 0)
             + simplex.noise3D(this.position[0] / 100 + t, this.position[1] / 100 - t, t) * 0.5 - 0.2;
         this.target /= map(config.magnification, 0, 1, 1, 5);
+
+        if (!config.showHeatHint) {
+            this.target = 1.0;
+        }
         this.val = ease(this.val, this.target, 0.2);
 
 
@@ -105,10 +144,20 @@ class Chunk {
         var val = this.val;
         var green = min((max(val, 0) * 15), 255) & 255;
         var red = min((max(-val, 0) * 15), 255) & 255;
-        var op = min(0.5, abs(val / 5));
-        var rgb = hslToRgb(0.6, 0.7, 0.3);
-        if (val < 0) {
-            rgb = hslToRgb(0, 0.2, 0.3);
+        var op = min(config.heatMapOpacityCap, abs(val / 5));
+        this.targetOpacity = op;
+        var rgb;
+        if (config.heatMode == 0) {
+            rgb = hslToRgb(0.6, 0.7, 0.3);
+            if (val < 0) {
+                rgb = hslToRgb(0, 0.2, 0.3);
+            }
+        } else {
+            if (val < 0) {
+                rgb = hslToRgb(0, min(0.7, abs(val) / 5), 1 - min(0.5, abs(val) / 15));
+            } else {
+                rgb = hslToRgb(0.6, min(0.7, abs(val) / 5), 1 - min(0.5, abs(val) / 15));
+            }
         }
         var blue = 0;
         // (min(noise(this.position[0] / 1000, this.position[1] / 1000, t) * 255, 255)) & 255;
@@ -117,8 +166,12 @@ class Chunk {
         //     rect(this.position[0] - blockSize / 2 + 1,
         //         1 + this.position[1] - blockSize / 2, blockSize - 2, blockSize - 2);
         // }
-        this.sprite.alpha = this.sprite.opacity = op;
-        this.sprite.tint = (rgb[0] << 16) + (rgb[1] << 8) + rgb[2];
+        this.sprite.alpha = ease(this.sprite.alpha, op, 0.1);
+        this.targetColor = rgb;
+        this.color[0] = ease(this.color[0], this.targetColor[0], 0.2);
+        this.color[1] = ease(this.color[1], this.targetColor[1], 0.2);
+        this.color[2] = ease(this.color[2], this.targetColor[2], 0.2);
+        this.sprite.tint = (this.color[0] << 16) + (this.color[1] << 8) + this.color[2];
 
         if (this.selected) {
             this.sprite.alpha = this.sprite.opacity = 1;
@@ -175,9 +228,16 @@ class ConvFilter {
             + simplex.noise3D(this.position[0] / 100 + t, this.position[1] / 100 - t, t) * 0.5 - 0.2;
         this.target /= map(config.magnification, 0, 1, 1, 5);
         this.target = this.target < (-config.warning_threshold / map(config.magnification, 0, 1, 1, 2)) ? -10 : 0;
+
+        if (!config.showCriticalHint) {
+            this.target = 0;
+        }
+
         this.val = ease(this.val, this.target, 0.2);
     }
     render(t) {
+
+
         var val = this.val;
 
         // val = val < -config.warning_threshold ? -10 : 0;
@@ -196,7 +256,6 @@ class ConvFilter {
         // }
         this.sprite.alpha = this.sprite.opacity = -val / 10;
         this.sprite.tint = (rgb[0] << 16) + (rgb[1] << 8) + rgb[2];
-
 
     }
 }

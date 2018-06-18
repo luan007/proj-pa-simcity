@@ -60,15 +60,16 @@ class Entity {
         this.sprite.anchor.y = 0.5;
         this.sprite.scale.x = 0.82;
         this.sprite.scale.y = 0.82;
-        this.sprite.alpha = 0.3;
+        this.sprite.alpha = 0.1;
 
         this.csprite.anchor.x = 0.5;
         this.csprite.anchor.y = 0.5;
         this.csprite.scale.x = 0.12;
         this.csprite.scale.y = 0.12;
-        this.csprite.alpha = 0.3;
         this.cache = [];
         this.highlit = false;
+
+        this.csprite.blendMode = PIXI.BLEND_MODES.ADD;
 
 
     }
@@ -124,7 +125,8 @@ class Entity {
 
         if(!this.computedFactors) return;
 
-        var curFactor = abs(this.computedFactors[config.view]) || 0;
+        var raw = this.computedFactors[config.view];
+        var curFactor = abs(raw) || 0;
 
 
         if (this.highlit) {
@@ -133,10 +135,16 @@ class Entity {
             curFactor = 0;
         }
 
-        this.viewedFactorEase = ease(this.viewedFactorEase, curFactor * 0.1, 0.1);
+        this.viewedFactorEase = ease(this.viewedFactorEase, min(0.3, sqrt(curFactor) / 10), 0.1);
         this.csprite.scale.x = 
         this.csprite.scale.y = this.viewedFactorEase;
 
+        this.csprite.alpha = min(0.1, this.viewedFactorEase);
+        if(raw > 0) {
+            this.csprite.tint = 0xeeefff;
+        } else if(raw < 0) {
+            this.csprite.tint = 0xff3300;
+        }
 
 
         this.highlit = false; //recycle!
