@@ -130,8 +130,6 @@ setInterval(() => {
         computed: computed,
         condensed: condensed,
         config: config,
-        chunks: chunks,
-        cars: global.cars
+        chunks: chunks
     });
-    console.log("sent..");
 }, 1000);

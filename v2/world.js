@@ -237,9 +237,7 @@ class Entity {
         //     cv.buildings.stroke(0, 150, 255, 100);
         //     cv.buildings.strokeWeight(10);
         //     cv.buildings.ellipse(0, 0, r, r);
-
         // }
-
 
         cv.buildings.push();
         cv.buildings.translate(-this.RSIZE / 2, -this.RSIZE / 2 - 3);
