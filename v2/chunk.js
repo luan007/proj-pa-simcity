@@ -14,12 +14,17 @@ class TouchSelection {
         this.breathe = 0;
         this.seed = random(1000);
         this.breathe_speed = 1.5;
+        this.score = 0;
+        this.selected = [];
     }
 
     render(t) {
 
         this.breathe = (sin(t * this.breathe_speed + this.seed) * 0.5 + 0.5) * 0.3 + 1;
         this.activeEase = ease(this.activeEase, this.active ? 1 : 0, 0.2);
+
+        if (this.activeEase < 0.01) return;
+
         // if (random(this.activeEase) < 0.3) {
         //     return;
         // }
@@ -29,18 +34,49 @@ class TouchSelection {
         if (config.lensMode == 0) {
             var s = (config.touchZone * 2 + 1) * blockSize * this.activeEase;
             cv.overlay.push();
+            cv.overlay.stroke(255, 100);
             cv.overlay.noFill();
             // cv.overlay.fill(255, 20);
-            cv.overlay.stroke(255, 100);
-            cv.overlay.strokeWeight(2);
             cv.overlay.rectMode(CENTER);
-            cv.overlay.rect(this.position[0], this.position[1], s, s);
+            cv.overlay.rect(this.position[0], this.position[1], s * 0.5, s * 0.5);
+            cv.overlay.strokeWeight(1);
+            cv.overlay.stroke(255, 100);
+            cv.overlay.line(0, this.position[1] - s / 2, dw, this.position[1] - s / 2);
+            cv.overlay.line(0, this.position[1] + s / 2, dw, this.position[1] + s / 2);
+            cv.overlay.line(this.position[0] - s / 2, 0, this.position[0] - s / 2, dh);
+            cv.overlay.line(this.position[0] + s / 2, 0, this.position[0] + s / 2, dh);
             cv.overlay.pop();
-        }
+            var avg = 0;
+            for (var i = 0; i < this.selected.length; i++) {
+                avg += this.selected[i].val;
+            }
+            avg /= this.selected.length;
 
+            cv.overlay.push();
+            cv.overlay.blendMode(BLEND);
+            cv.overlay.noStroke();
+            cv.overlay.translate(this.position[0] - (config.touchZone * 1 + 1) * blockSize + blockSize / 2, this.position[1])
+            // cv.overlay.fill(255, this.activeEase * 255);
+            cv.overlay.fill(150, this.activeEase * 255);
+            cv.overlay.textAlign(LEFT, CENTER);
+            cv.overlay.textSize(20);
+            if(avg > 0) {
+                cv.overlay.fill(40, 150, 255, this.activeEase * 255);
+            } else {
+                cv.overlay.fill(255, 100, 33, this.activeEase * 255);
+            }
+            cv.overlay.textFont("Monospace");
+            cv.overlay.textSize(16);
+            cv.overlay.text((avg > 0 ? "+" : "") + avg.toFixed(2), 5, (config.touchZone * 1 + 1) * blockSize);
+
+            cv.overlay.textFont("PingFang SC");
+            cv.overlay.textSize(12);
+            cv.overlay.text("" + explain(config.view), 5, (config.touchZone * 1 + 1) * blockSize + 20);
+            cv.overlay.pop();
+
+        }
         else if (config.lensMode == 1) {
             var link = (config.linkZone * 2 + 1) * blockSize * this.activeEase;
-
 
             cv.overlay.noStroke();
             cv.overlay.fill(255, 30);
@@ -52,17 +88,76 @@ class TouchSelection {
             cv.overlay.ellipse(this.position[0], this.position[1], link * 2, link * 2);
             cv.overlay.strokeWeight(1);
             cv.overlay.stroke(40, 150, 255, 255);
+
+            var computedWeight = 0;
+            cv.overlay.textAlign(CENTER, CENTER);
+            cv.overlay.textSize(9);
+            cv.overlay.textFont("PingFang SC");
+
             for (var i = 0; i < this.linked.length; i++) {
                 let target = this.linked[i];
+                computedWeight += target.computedFactors[config.view];
+                if (target.computedFactors[config.view] < 0) {
+                    cv.overlay.stroke(255, 100, 33, this.activeEase * 255);
+                } else {
+                    cv.overlay.stroke(40, 150, 255, this.activeEase * 255);
+                }
                 var vec = createVector(target.variables.position[0] - this.position[0]
                     , target.variables.position[1] + 33 / 2 - this.position[1]);
                 cv.overlay.strokeWeight(1);
                 cv.overlay.line(this.position[0], this.position[1], vec.x + this.position[0], vec.y + this.position[1])
+
+                cv.overlay.push();
+                cv.overlay.translate(this.position[0] + vec.x / 2,
+                    this.position[1] + vec.y / 2);
+                if (target.computedFactors[config.view] < 0) {
+                    cv.overlay.fill(255, 100, 33, this.activeEase * 255);
+                } else {
+                    cv.overlay.fill(40, 150, 255, this.activeEase * 255);
+                }
+                cv.overlay.text(
+                    (target.computedFactors[config.view] > 0 ? '+' : '') +
+                    target.computedFactors[config.view].toFixed(2), 0, 0);
+                cv.overlay.noStroke();
+                cv.overlay.pop();
+
                 var heading = vec.heading();
                 var mag = vec.mag();
+
                 cv.overlay.strokeWeight(max(0, 10 - mag / 30) + 1);
                 cv.overlay.arc(this.position[0], this.position[1], link * 0.5, link * 0.5, heading - 0.2, heading + 0.2);
             }
+
+            var targetScore = ((abs(computedWeight))) / this.linked.length * (computedWeight > 0 ? 1 : -1);
+            this.score = ease(this.score, targetScore, 0.2);
+            cv.overlay.strokeWeight(3);
+            if (this.score > 0) {
+                let score = min(1, max(0, abs(this.score)));
+                cv.overlay.arc(this.position[0], this.position[1], link * 0.6, link * 0.6, 0, abs(score) * PI * 2);
+            } else {
+                let score = min(1, max(0, abs(this.score)));
+                cv.overlay.stroke(255, 100, 33, this.activeEase * 255);
+                cv.overlay.arc(this.position[0], this.position[1], link * 0.6, link * 0.6, 0, abs(score) * PI * 2);
+            }
+
+            cv.overlay.push();
+            cv.overlay.blendMode(BLEND);
+            cv.overlay.noStroke();
+            cv.overlay.translate(this.position[0], this.position[1] + 10)
+            // cv.overlay.fill(255, this.activeEase * 255);
+            cv.overlay.fill(100, 200, 255, this.activeEase * 255);
+            cv.overlay.textAlign(CENTER, CENTER);
+            cv.overlay.textSize(14);
+            cv.overlay.textFont("PingFang SC");
+            cv.overlay.text("" + explain(config.view), 0, 70);
+            cv.overlay.textSize(12);
+            var prob = problem(config.view, computedWeight);
+            if (prob) {
+                cv.overlay.fill(255, 100, 33, this.activeEase * 255);
+                cv.overlay.text("[!] " + explain(prob), 0, 90);
+            }
+            cv.overlay.pop();
+
         }
     }
 
@@ -104,10 +199,11 @@ class Chunk {
         chunk_container.addChild(this.sprite);
         this.sprite.anchor.x = 0.5;
         this.sprite.anchor.y = 0.5;
-        this.sprite.scale.x = 0.82;
-        this.sprite.scale.y = 0.82;
+        this.sprite.scale.x = 0.73;
+        this.sprite.scale.y = 0.73;
         this.sprite.position.x = this.position[0];
         this.sprite.position.y = this.position[1];
+        this.sprite.blendMode = PIXI.BLEND_MODES.ADD;
         this.val = 0;
         this.targetColor = [0, 0, 0];
         this.color = [0, 0, 0];
@@ -133,7 +229,7 @@ class Chunk {
             + simplex.noise3D(this.position[0] / 100 + t, this.position[1] / 100 - t, t) * 0.5 - 0.2;
         this.target /= map(config.magnification, 0, 1, 1, 5);
 
-        if (!config.showHeatHint) {
+        if (!config.showHeatHint && !this.selected) {
             this.target = 1.0;
         }
         this.val = ease(this.val, this.target, 0.2);
@@ -144,21 +240,33 @@ class Chunk {
         var val = this.val;
         var green = min((max(val, 0) * 15), 255) & 255;
         var red = min((max(-val, 0) * 15), 255) & 255;
-        var op = min(config.heatMapOpacityCap, abs(val / 5));
-        this.targetOpacity = op;
+        var op = min(config.heatMapOpacityCap, abs(val / 20));
+
+
         var rgb;
         if (config.heatMode == 0) {
-            rgb = hslToRgb(0.6, 0.7, 0.3);
+            rgb = hslToRgb(0.6, 0.5 + op * 0.5, 0.7 * op);
             if (val < 0) {
-                rgb = hslToRgb(0, 0.2, 0.3);
+                rgb = hslToRgb(0, 0.5 + op * 0.5, 0.7 * op);
             }
         } else {
+            var op = min(config.heatMapOpacityCap, abs(val / 2));
             if (val < 0) {
-                rgb = hslToRgb(0, min(0.7, abs(val) / 5), 1 - min(0.5, abs(val) / 15));
+                rgb = hslToRgb(0.2 - min(0.2, abs(val) / 8), 1, min(0.3, abs(val) / 15));
             } else {
-                rgb = hslToRgb(0.6, min(0.7, abs(val) / 5), 1 - min(0.5, abs(val) / 15));
+                rgb = hslToRgb(0.6 - abs(val) / 100, 1, min(0.3, abs(val) / 15));
             }
         }
+        if (this.selected) {
+            op = 1;
+
+            rgb = hslToRgb(0.6, 0.5 + op * 0.5, 0.7 * op);
+            if (val < 0) {
+                rgb = hslToRgb(0, 0.5 + op * 0.5, 0.7 * op);
+            }
+            
+        }
+        this.targetOpacity = op;
         var blue = 0;
         // (min(noise(this.position[0] / 1000, this.position[1] / 1000, t) * 255, 255)) & 255;
         // if (red > 50 || green > 50) {
@@ -166,6 +274,7 @@ class Chunk {
         //     rect(this.position[0] - blockSize / 2 + 1,
         //         1 + this.position[1] - blockSize / 2, blockSize - 2, blockSize - 2);
         // }
+
         this.sprite.alpha = ease(this.sprite.alpha, op, 0.1);
         this.targetColor = rgb;
         this.color[0] = ease(this.color[0], this.targetColor[0], 0.2);
@@ -173,9 +282,6 @@ class Chunk {
         this.color[2] = ease(this.color[2], this.targetColor[2], 0.2);
         this.sprite.tint = (this.color[0] << 16) + (this.color[1] << 8) + this.color[2];
 
-        if (this.selected) {
-            this.sprite.alpha = this.sprite.opacity = 1;
-        }
     }
 }
 
@@ -195,6 +301,7 @@ class ConvFilter {
         this.sprite.anchor.y = 0.5;
         this.sprite.scale.x = 0.4;
         this.sprite.scale.y = 0.4;
+        this.sprite.blendMode = PIXI.BLEND_MODES.ADD;
         this.sprite.position.x = this.position[0];
         this.sprite.position.y = this.position[1];
 
@@ -264,6 +371,7 @@ var le_world_size = {
     w: w / blockSize,
     h: h / blockSize
 };
+
 function initChunks() {
     for (var y = 0; y < h / blockSize; y++) {
         for (var x = 0; x < w / blockSize; x++) {
@@ -289,47 +397,54 @@ function resetChunks() {
     cv.overlay.clear();
 }
 
-function setSelected(x, y) {
+function setSelected(x, y, t) {
     if (x >= 0 && y >= 0 && x < le_world_size.w && y < le_world_size.h) {
         le_world[x + y * le_world_size.w].selected = true;
+        t.selected.push(le_world[x + y * le_world_size.w]);
     }
 }
 
 function updateChunks(t) {
 
-    // for (var i = 0; i < le_world.length; i++) {
-    //     le_world[i].selected = false;
-    // }
+    for (var i = 0; i < le_world.length; i++) {
+        le_world[i].selected = false;
+    }
 
     for (var i = 0; i < touchSelectors.length; i++) {
         touchSelectors[i].active = false;
     }
 
     for (var i = 0; i < touches.length; i++) {
-
+        if(touches[i].y > 960) continue;
         touchSelectors[i] = touchSelectors[i] || new TouchSelection();
         touchSelectors[i].position[0] = touches[i].x;
         touchSelectors[i].position[1] = touches[i].y;
         touchSelectors[i].active = true;
-        // var p = {
-        //     x: touches[i].x,
-        //     y: touches[i].y
-        // };
-        // console.log(p);
-        // p.x /= blockSize;
-        // p.y /= blockSize;
-        // p.x = Math.round(p.x - 0.5);
-        // p.y = Math.round(p.y - 0.5);
-        // for (var x = -config.touchZone; x <= config.touchZone; x++) {
-        //     for (var y = -config.touchZone; y <= config.touchZone; y++) {
-        //         setSelected(x + p.x, y + p.y)
-        //     }
-        // }
+        if (config.lensMode == 0) {
+            if (touchSelectors[i].selected.length > 0) {
+                touchSelectors[i].selected = [];
+            }
+            var p = {
+                x: touches[i].x,
+                y: touches[i].y
+            };
+            // console.log(p);
+            p.x /= blockSize;
+            p.y /= blockSize;
+            p.x = Math.round(p.x - 0.5);
+            p.y = Math.round(p.y - 0.5);
+            for (var x = -config.touchZone; x <= config.touchZone; x++) {
+                for (var y = -config.touchZone; y <= config.touchZone; y++) {
+                    setSelected(x + p.x, y + p.y, touchSelectors[i])
+                }
+            }
+        }
     }
 
     for (var i = 0; i < le_world.length; i++) {
         le_world[i].update(t);
         le_world[i].render(t);
+
     }
     for (var i = 0; i < conv_world.length; i++) {
         conv_world[i].update(t);
@@ -340,5 +455,4 @@ function updateChunks(t) {
         touchSelectors[i].update(t);
         touchSelectors[i].render(t);
     }
-
 }

@@ -40,6 +40,7 @@ class Entity {
         this._rotator.rotation = (this.variables.rotation % 180) / 360 * PI * 2;
 
         this.sprite = new PIXI.Sprite(rectTexture);
+        this.sprite.blendMode = PIXI.BLEND_MODES.ADD;
         this.csprite = new PIXI.Sprite(circleTexture);
         this.title = new PIXI.Text(this.variables.name, {
             fontFamily: 'PingFang SC',
@@ -72,10 +73,19 @@ class Entity {
         this.csprite.blendMode = PIXI.BLEND_MODES.ADD;
 
 
+        if (this.variables.dynamic == true) {
+            this._group.visible = false;
+            this.sprite.scale.x = 1.82;
+            this.sprite.scale.y = 1.82;
+            this.title.position.y = -50;
+            this.title.position.x = -35;
+            this.title.text = "PLANNED > "
+            this.sprite.visible = false;
+        }
     }
 
     init() {
-        
+
         // for (var i = 0; i < world.length; i += 1) {
         //     window.lineCount = window.lineCount || 0;
         //     var line = new PIXI.Graphics();
@@ -105,6 +115,19 @@ class Entity {
 
     update(t) {
 
+        if (this.variables.dynamic) {
+            this._group.visible = this.variables.activated;
+            if (this.variables.activated && moveableScores[this.variables.radio]) {
+                moveableScores[this.variables.radio][0].call(this, [moveableScores[this.variables.radio][1]]);
+            } else {
+                //clear factors
+                for (var i in this.factor) {
+                    this.factor[i] = 0;
+                }
+            }
+        }
+
+
         this.calculator ? this.calculator(t) : 0;
         this.variables.radius += (simplex.noise3D(this.noiseOffset[0], this.noiseOffset[1], t) - 0.5) * 30;
         this.computedFactors = computed.world ? computed.world[this.id] : undefined;
@@ -123,11 +146,10 @@ class Entity {
         //     }
         // }
 
-        if(!this.computedFactors) return;
+        if (!this.computedFactors) return;
 
         var raw = this.computedFactors[config.view];
         var curFactor = abs(raw) || 0;
-
 
         if (this.highlit) {
             curFactor = curFactor;
@@ -136,25 +158,47 @@ class Entity {
         }
 
         this.viewedFactorEase = ease(this.viewedFactorEase, min(0.3, sqrt(curFactor) / 10), 0.1);
-        this.csprite.scale.x = 
-        this.csprite.scale.y = this.viewedFactorEase;
+        this.csprite.scale.x =
+            this.csprite.scale.y = this.viewedFactorEase;
 
-        this.csprite.alpha = min(0.1, this.viewedFactorEase);
-        if(raw > 0) {
+        this.csprite.alpha = min(0.2, this.viewedFactorEase);
+        if (raw > 0) {
             this.csprite.tint = 0xeeefff;
-        } else if(raw < 0) {
+        } else if (raw < 0) {
             this.csprite.tint = 0xff3300;
+        }
+
+        this.sprite.alpha = max(0.9, abs(this.viewedFactorEase) * 0.3);
+
+        var d = dist(this.variables.position[0], this.variables.position[1], dw / 2, dh / 2) /
+            1200;
+        if (this.factor[config.view] > 0) {
+            // this.sprite.alpha = this.sprite.opacity = 0.;
+            this.sprite.tint = 0x0099ff;
+            // this.sprite.alpha = 0.5;
+        } else if (this.factor[config.view] < 0) {
+            this.sprite.tint = 0xff9900;
+            // this.sprite.alpha = Math.min(1.0, abs(this.factor[config.view]));
+            // this.sprite.alpha = this.sprite.opacity = 0.6;
+            // this.sprite.tint = PIXI.utils.rgb2hex([100 * abs(this.factor[config.view]) + 50, (0), 0]);
+        } else {
+            this.sprite.tint = 0x222222;
+        }
+        this.title.opacity = this.title.alpha = random(0.4) < abs(d - probe) ? 1 : 0.8;
+
+        if (abs(d - probe) < 0.2 && random(0.4) < abs(d - probe)) {
+            this.sprite.tint = 0xffffff;
+            this.sprite.alpha = 0.5;
         }
 
 
         this.highlit = false; //recycle!
     }
-
 }
 
 //renderers
 {
-    function render_building(t) {
+    function render_building_bk(t) {
         return;
 
         var d = dist(this.variables.position[0], this.variables.position[1], dw / 2, dh / 2) /
@@ -225,6 +269,30 @@ class Entity {
         cv.buildings.pop();
     }
 
+
+    function render_building(t) {
+
+        // var d = dist(this.variables.position[0], this.variables.position[1], dw / 2, dh / 2) /
+        //     1200;
+        // if (this.factor[config.view] > 0) {
+        //     // this.sprite.alpha = this.sprite.opacity = 0.;
+        //     this.sprite.tint = 0xffffff;
+        //     this.sprite.alpha = 0.5;
+        // } else if (this.factor[config.view] < 0) {
+        //     this.sprite.tint = 0xff3311;
+        //     this.sprite.alpha = Math.min(1.0, abs(this.factor[config.view]));
+        //     // this.sprite.alpha = this.sprite.opacity = 0.6;
+        //     // this.sprite.tint = PIXI.utils.rgb2hex([100 * abs(this.factor[config.view]) + 50, (0), 0]);
+        // }
+        // this.title.opacity = this.title.alpha = random(0.4) < abs(d - probe) ? 1 : 0.8;
+
+        // if (abs(d - probe) < 0.2 && random(0.4) < abs(d - probe)) {
+        //     this.sprite.tint = 0xffffff;
+        //     this.sprite.alpha = 1;
+        // }
+    }
+
+
     function render_dynamic(t) {
         // t.default_render();
 
@@ -267,13 +335,13 @@ class Entity {
             if (cur.id.trim() == "") continue;
 
             if (cur.id.startsWith('随意')) {
-                world.push(e({
-                    position: [np.x, np.y],
-                    rotation: r,
-                    name: j,
-                    dynamic: true
-                }, undefined, render_dynamic));
-                changables.push(world[world.length - 1]);
+                // world.push(e({
+                //     position: [np.x, np.y],
+                //     rotation: r,
+                //     name: j,
+                //     dynamic: true
+                // }, undefined, render_dynamic));
+                // changables.push(world[world.length - 1]);
             } else {
                 for (var j in scores) {
                     if (cur.id.startsWith(j)) {
@@ -287,7 +355,9 @@ class Entity {
                 }
             }
         }
+    }
 
+    function loadWorld() {
         for (var i = 0; i < world.length; i++) {
             world[i].init();
         }
@@ -308,6 +378,7 @@ class Entity {
                 // var restored = JSON.parse(pako.inflate(dt, { to: 'string' }));
                 computed.aspects = dt.aspects;
                 computed.world = dt.world;
+                computed.score = dt.score;
                 for (var i = 0; i < computed.aspects.length; i++) {
                     for (var j in computed.aspects[i]) {
                         computed.aspects[i][j] /= 10;

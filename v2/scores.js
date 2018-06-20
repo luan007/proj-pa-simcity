@@ -15,14 +15,33 @@ var R = function (r) {
  * en: environment
  */
 
+function problem(cat, score) {
+    if (cat == 't') {
+        if (score < -20) {
+            return cat + "_err";
+        }
+        return undefined;
+    }
+    if (cat == 'm') {
+        if (score < -30) {
+            return cat + "_err";
+        }
+        return undefined;
+    }
+    if (score < -3) {
+        return cat + "_err";
+    }
+    return undefined;
+}
+
 
 var template = {
     c: function (size) { //commercial
-        this.variables.radius = R(5 + size * 10);
+        this.variables.radius = R(10 + size * 15);
         this.factor["h"] = -1 * size;
-        this.factor["t"] = -0.1 * size;
+        this.factor["t"] = -1.5 * size * size;
         this.factor["ec"] = +1 + 3 * size;
-        this.factor["j"] = -1 - 3 * size;
+        this.factor["j"] = +1 + 13 * size * size;
         this.factor["m"] = -0.01 * size;
         this.factor["en"] = -0.1 * size * size;
         this.factor["i"] = -0.5 + size * 0.2;
@@ -33,65 +52,67 @@ var template = {
         this.factor["h"] = -3 * size;
         this.factor["i"] = 1 + size * 2;
         this.factor["m"] = -0.5 * size;
-        this.factor["en"] = +0.5 * size * size;
-        this.factor["t"] = -0.3 * size;
+        this.factor["en"] = +3 * size * size;
+        this.factor["t"] = -2.5 * size;
         this.factor["hp"] = 2 * size;
         this.factor["ec"] = 3 * size; //30亿
         this.factor["ed"] = 2 * size;
-        this.factor["j"] = -1 - 2 * log(size);
+        this.factor["j"] = +1 + 2 * log(size);
     },
     b: function (size) { //biz
-        this.variables.radius = R(2 + size * 10);
+        this.variables.radius = R(20 + size * 100);
         this.factor["h"] = -5 * size;
         this.factor["i"] = 1 + log(size) * 2;
         this.factor["m"] = -0.7 * size; //10%
-        this.factor["t"] = -0.6 * size; //10%
+        this.factor["t"] = -1.1 * size * size; //10%
         this.factor["hp"] = 1.2 * size; //10%
-        this.factor["en"] = -0.3;
+        this.factor["en"] = 0.1 * size * size;
         this.factor["ec"] = 5 * size * size;
-        this.factor["j"] = -2 - 5 * log(size);
+        this.factor["j"] = +2 + 5 * 2 * log(size);
     },
     t: function (size) { //tech
         this.variables.radius = R(3 + size * 10);
         this.factor["i"] = 2 + log(size) * 5;
         this.factor["h"] = -0.5 * size; //人
         this.factor["m"] = -0.2 * size; //10%
-        this.factor["t"] = -0.2 * size; //10%
+        this.factor["t"] = +1.2 * size; //10%
         this.factor["hp"] = 1 * size; //10%
-        this.factor["en"] = +1.1 * size * size;
+        this.factor["en"] = +3 * size * size;
         this.factor["ec"] = 5 * size * size;
-        this.factor["j"] = -3 - 2 * log(size);
+        this.factor["j"] = +3 + 2 * log(size);
     },
     m: function (size) { //HOUSE!
-        this.variables.radius = R(10 + size * 5);
+        this.variables.radius = R(3 + size * 5);
         this.factor["m"] = -0.5 * size; //10%
-        this.factor["t"] = -0.8 * size; //10%
+        this.factor["t"] = -0.3 * size; //10%
         this.factor["ed"] = -0.3 * size;
-        this.factor["en"] = -0.1 * size * size;
-        this.factor["j"] = 3 * size;
+        this.factor["en"] = -0.05 * size * size;
+        this.factor["j"] = -0.05 * size * size;
         this.factor["h"] = size * 2;
         this.factor["hp"] = 1 / ((size) + 1); //10%
     },
     h: function (size) { //hospital!
-        this.variables.radius = R(10 + size * 5);
-        this.factor["m"] = 1.2 * size; //10%
-        this.factor["j"] = -2 * size;
-        this.factor["t"] = -0.3 * size; //10%
+        this.variables.radius = R(50 + size * 50);
+        this.factor["m"] = 3 * size * size; //10%
+        this.factor["j"] = +2 * size;
+        this.factor["t"] = -3.1 * size; //10%
         this.factor["h"] = -0.2 * size;
     },
     s: function (size) { //schoool!        
         this.variables.radius = R(2 + size * 5);
         this.factor["ed"] = 1.3 * size * size; //10%
-        this.factor["j"] = -0.5 * size;
-        this.factor["t"] = -0.2 * size; //10%
+        this.factor["en"] = 1.3 * size * size; //10%
+        this.factor["j"] = +0.5 * size;
+        this.factor["t"] = -1.1 * size; //10%
         this.factor["h"] = -0.1 * size;
         this.factor["hp"] = 2 * size; //10%
     },
     n: function (size) { //special    
         this.variables.radius = R(3 + size * 5);
         this.factor["ec"] = 0.5 * size;
-        this.factor["j"] = -1 * size;
-        this.factor["t"] = -0.1 * size; //10%
+        this.factor["j"] = +1 * size;
+        this.factor["i"] = -1 * size * size;
+        this.factor["t"] = +1 * size; //10%
         this.factor["h"] = -0.3 * size;
         this.factor["en"] = -2 * size;
     }
@@ -118,4 +139,9 @@ var scores = {
     "N1": (q) => { return template.n.bind(q, 1) },
     "N2": (q) => { return template.n.bind(q, 3) },
     "N3": (q) => { return template.n.bind(q, 6) },
+};
+
+
+var moveableScores = {
+    1: [template.c, 4]
 };

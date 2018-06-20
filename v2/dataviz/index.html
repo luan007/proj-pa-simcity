@@ -1,0 +1,92 @@
+<html>
+
+<head>
+    <title></title>
+    <meta charset="UTF-8">
+
+    <style>
+        * {
+            touch-action: none;
+        }
+
+        body {
+            touch-action: none;
+            background: black;
+        }
+
+        .container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 1080px;
+            width: 1920px;
+            z-index: 999999;
+        }
+
+        .access_bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            height: 120px;
+            width: 1920px;
+            z-index: 9999999;
+            /* background: black; */
+        }
+
+        #logo {
+            position: absolute;
+            bottom: 35px;
+            right: 23px;
+            width: auto;
+            height: 60px;
+            display: block;
+            opacity: 1;
+            top: auto;
+            left: auto;
+        }
+
+        body {
+            padding: 0;
+            margin: 0;
+        }
+
+        img,
+        svg,
+        canvas {
+            position: fixed;
+            width: 1920px;
+            height: 1080px;
+            top: 0;
+            left: 0;
+            opacity: 0;
+        }
+
+        canvas {
+            opacity: 1;
+        }
+
+        #defaultcanvas0 {
+            mix-blend-mode: screen;
+            pointer-events: none;
+            touch-action: none;
+        }
+    </style>
+
+    <script src='./libraries/three.js'></script>
+</head>
+
+<body>
+
+    <script src="http://localhost:8988/socket.io/socket.io.js"></script>
+    <script>
+        var socket = io.connect('http://localhost:8988/display');
+        var scene = new THREE.Scene();
+    </script>
+    <script src='libraries/simplex.js'></script>
+    <script src='shared.js'></script>
+    <script src='world.js'></script>
+    <script src='main.js'></script>
+
+</body>
+
+</html>

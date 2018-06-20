@@ -68,7 +68,10 @@ var simulator = cw({
                 check: 0
             });
         }
+        var aggregation = {};
         for (var t = 0; t < positions.length; t++) { //all blocks
+
+            aspects[t]['t'] = 3;
             for (var i = 0; i < factors.length; i++) { //all world stuff
                 var radius = vars[i].radius;
                 var p1 = vars[i].position;
@@ -83,7 +86,9 @@ var simulator = cw({
                 var nz = (quickNoise.noise(vars[i].noiseOffset[0] + p2[1] / 1000, vars[i].noiseOffset[1] + p2[0] / 1000, time / 1) * 0.2 + 0.5);
                 for (var j in factors[i]) {
                     aspects[t][j] = aspects[t][j] || 0;
+                    aggregation[j] = aggregation[j] || 0;
                     aspects[t][j] += factors[i][j] * nz * Math.pow(vars[i].distance_decay, d / 10);
+                    aggregation[j] += aspects[t][j] / positions.length;
                     // b.block.aspects[j] += this.factor[j] * b.decay * nz;
                 }
             }
@@ -91,13 +96,17 @@ var simulator = cw({
                 aspects[t][j] = Math.round(aspects[t][j] * 10);
             }
         }
+        for (var j in aggregation) {
+            aggregation[j] = Math.sqrt(Math.abs(aggregation[j])) * Math.sign(aggregation[j]) / 30;
+        }
 
         // cb(LZString.compress(JSON.stringify(aspects)));
         // var binaryString = pako.deflate(JSON.stringify(aspects), { to: 'string' });
         // cb(binaryString);
         callback({
             aspects: aspects,
-            world: dt
+            world: dt,
+            score: aggregation
         });
     }
 });

@@ -24,6 +24,16 @@ function hslToRgb(h, s, l) {
 }
 
 
+function button(x, y, w, h) {
+    var shot = global.shot && (Date.now() - global.shot > 20)
+    && (mouseX >= x && mouseX <= x + w && mouseY >= y && mouseY <= y + h);
+    if (shot) {
+        global.shot = 0;
+        return true;
+    }
+    return false;
+}
+
 function deltaTransformPoint(matrix, point) {
 
     var dx = point.x * matrix.a + point.y * matrix.c + 0;
