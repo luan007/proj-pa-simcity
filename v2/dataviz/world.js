@@ -1,6 +1,7 @@
 var simplex = new SimplexNoise('SEED');
 
-
+var aggregated_view_factors = {};
+var aggregated_computed_factors = {};
 var viewContainer = new THREE.Group();
 
 
@@ -61,7 +62,7 @@ chunk_water_mesh.position.z = -130;
 var chunk_lines_material = new THREE.LineBasicMaterial({
     color: 0x77eeff,
     transparent: true,
-    opacity: 0.2,
+    opacity: 0.3,
     blending: THREE.AdditiveBlending
 });
 var chunk_lines = new THREE.Geometry();
@@ -94,7 +95,7 @@ chunk_grids.position.z = -50;
 var chunk_large_lines_material = new THREE.LineBasicMaterial({
     color: 0x77eeff,
     transparent: true,
-    opacity: 0.2,
+    opacity: 0.7,
     blending: THREE.AdditiveBlending
 });
 var chunk_large_lines = new THREE.Geometry();
@@ -118,7 +119,7 @@ var chunk_stand_mat = new THREE.MeshBasicMaterial({
     color: new THREE.Color(0.7, 0.8, 0.9),
     transparent: true,
     // side: 2,
-    opacity: 0.3,
+    opacity: 0.5,
     blending: THREE.AdditiveBlending,
 });
 for (var i = 0; i < 3; i++) {
@@ -218,6 +219,14 @@ class Entity {
         //     this.soi.scale.y = 100;
         //     this.soi.scale.z = 100;
         // }
+        aggregated_view_factors[this.variables.name] = aggregated_view_factors[this.variables.name] || 0;
+        aggregated_view_factors[this.variables.name] +=
+            this.factors[view] || 0;
+
+
+        aggregated_computed_factors[this.variables.name] = aggregated_computed_factors[this.variables.name] || 0;
+        aggregated_computed_factors[this.variables.name] +=
+            this.factors[view] || 0;
     }
 }
 
@@ -308,6 +317,8 @@ class Chunk {
 //world
 {
     function updateWorld(t) {
+        aggregated_view_factors = {};
+        aggregated_computed_factors = {};
         //loaded stuff - lets add stuff
         if (world.length < data.condensed.worldConfigs.length) {
             console.log("Building World..");
@@ -321,13 +332,13 @@ class Chunk {
             world[i].variables = data.condensed.worldConfigs[i];
             world[i].factors = data.condensed.allFactors[i];
             world[i].computed = data.computed.world[i];
-
             world[i].update(t);
         }
     }
 
     function updateChunks(t) {
-        chunkContainer.rotation.z = 0.7 + Math.sin(t / 10000) * 0.1;
+        chunkContainer.rotation.z = 0.7 + Math.sin(t / 10000) * 0.3;
+        chunkContainer.rotation.y = Math.sin(t / 1000) * 0.001;
         //loaded stuff - lets add stuff
         if (chunks.length < data.chunks.positions.length) {
             console.log("Building Chunks..");
@@ -474,7 +485,7 @@ class Chunk {
             }
             else if (cars[i]) {
                 releaseCar(cars[i].obj);
-                console.log("release");
+                // console.log("release");
                 cars[i] = null;
             }
         }
