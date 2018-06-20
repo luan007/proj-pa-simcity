@@ -174,6 +174,9 @@ function drawRadar(x, y, t) {
 
 
 function drawCharts(t) {
+    
+    var keys = Object.keys(aggregated_computed_factors);
+
     push();
     var seg = 100;
     var openned = 200;
@@ -225,6 +228,11 @@ function drawCharts(t) {
             text(" - " + abs(myScores[i] * 100).toFixed(2), 100 - w / 2, 20);
         }
         pop();
+
+        if(opennedSegs[i] > 0.8) {
+            push();
+            pop();
+        }
 
         translate(0, opennedSegs[i] * openned + seg);
     }
