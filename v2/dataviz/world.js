@@ -11,8 +11,8 @@ viewContainer.add(worldContainer);
 viewContainer.add(chunkContainer);
 
 
-viewContainer.rotation.x = 0.4;
-viewContainer.position.y = 30;
+viewContainer.rotation.x = 0.55;
+viewContainer.position.y = 50;
 
 scene.add(viewContainer);
 
@@ -22,8 +22,8 @@ var chunk_road_mat = new THREE.MeshBasicMaterial({
     map: roadline_texture,
     blending: THREE.AdditiveBlending,
     transparent: true,
-    color: new THREE.Color(0.4, 0.6, 0.9),
-    alphaTest: 0.5
+    color: new THREE.Color(0.2, 0.3, 0.4),
+    alphaTest: 0.2
 });
 
 var chunk_road_mesh = new THREE.Mesh(chunk_road_plane, chunk_road_mat);
@@ -61,7 +61,7 @@ chunk_water_mesh.position.z = -130;
 var chunk_lines_material = new THREE.LineBasicMaterial({
     color: 0x77eeff,
     transparent: true,
-    opacity: 0.4,
+    opacity: 0.2,
     blending: THREE.AdditiveBlending
 });
 var chunk_lines = new THREE.Geometry();
@@ -88,6 +88,49 @@ chunkContainer.add(chunk_grids);
 chunk_grids.position.z = -50;
 
 
+//grid_large
+
+
+var chunk_large_lines_material = new THREE.LineBasicMaterial({
+    color: 0x77eeff,
+    transparent: true,
+    opacity: 0.2,
+    blending: THREE.AdditiveBlending
+});
+var chunk_large_lines = new THREE.Geometry();
+//build those lines
+var grid_size = 480;
+for (var x = -1920 / 2 * 15; x <= 1920 / 2 * 15; x += grid_size) {
+    chunk_large_lines.vertices.push(new THREE.Vector3(x, -960 / 2 * 15, 0));
+    chunk_large_lines.vertices.push(new THREE.Vector3(x, 960 / 2 * 15, 0));
+}
+for (var y = -960 / 2 * 15; y <= 960 / 2 * 15; y += grid_size) {
+    chunk_large_lines.vertices.push(new THREE.Vector3(1920 / 2 * 15, y, 0));
+    chunk_large_lines.vertices.push(new THREE.Vector3(-1920 / 2 * 15, y, 0));
+}
+var chunk_large_grids = new THREE.LineSegments(chunk_large_lines, chunk_large_lines_material);
+chunkContainer.add(chunk_large_grids);
+chunk_large_grids.position.z = -250;
+
+
+var chunk_stand_geo = new THREE.CylinderGeometry(1100, 1100, 4, 350, 1, true);
+var chunk_stand_mat = new THREE.MeshBasicMaterial({
+    color: new THREE.Color(0.7, 0.8, 0.9),
+    transparent: true,
+    // side: 2,
+    opacity: 0.3,
+    blending: THREE.AdditiveBlending,
+});
+for (var i = 0; i < 3; i++) {
+    var chunk_stand_mesh = new THREE.Mesh(chunk_stand_geo, chunk_stand_mat);
+    chunkContainer.add(chunk_stand_mesh);
+    chunk_stand_mesh.rotation.x = i * 1.3;
+    chunk_stand_mesh.position.z = -200 + i;
+    chunk_stand_mesh.scale.x = 1 + i / 20;
+    chunk_stand_mesh.scale.z = 1 + i / 20;
+}
+
+
 
 var chunkVerts = new THREE.Geometry();
 var chunkVerts2 = new THREE.Geometry();
@@ -101,11 +144,11 @@ for (var i = 0; i < 2048; i++) {
 var chunkMat = new THREE.PointsMaterial({
     vertexColors: true,
     transparent: true,
-    // blending: THREE.AdditiveBlending,
+    blending: THREE.AdditiveBlending,
     sizeAttenuation: true,
-    size: 13,
+    size: 12,
     depthTest: false,
-    opacity: 0.1,
+    opacity: 0.5,
     map: circle_texture
 });
 
@@ -114,7 +157,7 @@ var chunkMat_core = new THREE.PointsMaterial({
     transparent: true,
     blending: THREE.AdditiveBlending,
     sizeAttenuation: true,
-    size: 4,
+    size: 2,
     depthTest: false,
     opacity: 1,
     map: circle_texture
@@ -139,24 +182,54 @@ var chunks = [];
 
 
 
+var entity_index = 0;
+
+var entity_soi = new THREE.SphereGeometry(1, 30, 30);
+var entity_soi_mat = new THREE.MeshBasicMaterial({
+    transparent: true,
+    opacity: 0.1,
+    blending: THREE.AdditiveBlending,
+    color: new THREE.Color(0, 0.5, 1),
+    depthTest: false
+});
+
 
 class Entity {
     constructor() {
-
+        this.soiGeo = entity_soi;
+        this.soiMat = entity_soi_mat;
+        this.soi = new THREE.Mesh(this.soiGeo, this.soiMat);
+        this.group = new THREE.Group();
+        // this.geo = chunkGeom;
+        // this.mat = chunkMat.clone();
+        // this.mat.color = new THREE.Color(0.2, 0.4, 1);
+        // this.mesh = new THREE.Mesh(this.geo, this.mat);
+        this.index = entity_index++;
+        // this.group.add(this.soi);
+        chunkContainer.add(this.group);
     }
     update() {
-
+        // if (this.variables.dynamic) {
+        //     this.group.position.visible = false;
+        // } else {
+        //     this.group.position.x = (this.variables.position[0] - 1920 / 2);
+        //     this.group.position.y = (this.variables.position[1] - 960 / 2);
+        //     this.soi.scale.x = 100;
+        //     this.soi.scale.y = 100;
+        //     this.soi.scale.z = 100;
+        // }
     }
 }
 
-var chunkGeom = new THREE.BoxGeometry(5, 5, 5);
+var chunkGeom = new THREE.BoxGeometry(3, 3, 1);
 var chunkMat = new THREE.MeshBasicMaterial({
-    color: 0xffffff,
-    opacity: 0.15,
+    color: 0x332211,
+    // matelness: 1,
+    // roughness: 0,
+    // opacity: 1,
     transparent: true,
     blending: THREE.AdditiveBlending
 });
-
 
 
 
@@ -172,11 +245,14 @@ class Chunk {
         // this.mesh = new THREE.Mesh(this.geo, this.mat);
         this.index = chunk_index++;
         this.geo2 = chunkGeom;
-        this.mat2 = chunkMat;
+        this.mat2 = chunkMat.clone();
+        this.offsetGroup = new THREE.Group();
         this.mesh2 = new THREE.Mesh(this.geo2, this.mat2);
         // this.group.add(this.mesh);
-        // this.group.add(this.mesh2);
+        this.offsetGroup.add(this.mesh2);
+        this.group.add(this.offsetGroup);
         this.mesh2.scale.x = this.mesh2.scale.y = 3;
+        this.mesh2.position.z = 0.5;
         chunkContainer.add(this.group);
         this.val = 0;
         this.val2 = 0;
@@ -188,14 +264,18 @@ class Chunk {
         chunkVerts.vertices[this.index].y = this.group.position.y;
         chunkVerts2.vertices[this.index].x = this.group.position.x;
         chunkVerts2.vertices[this.index].y = this.group.position.y;
-        var target = this.aspects[view] + simplex.noise3D(
+        var target = this.aspects[view] != undefined ? (this.aspects[view] + simplex.noise3D(
             this.group.position.y / 100,
             this.group.position.x / 100,
             t / 3000
-        ) * 2;
+        ) * 2) : 0;
+
+
         var prevVal = this.val;
         this.val = ease(this.val, target, 0.1);
-        this.val2 = ease(this.val2, target, 0.04);
+        this.val2 = ease(this.val2, target, 0.08);
+
+        this.offsetGroup.scale.z = Math.abs(this.val * 10 + 0.1);
         chunkVerts.vertices[this.index].z = Math.abs(this.val * 10);
         chunkVerts2.vertices[this.index].z = Math.abs(this.val2 * 10);
         // this.mesh.position.z = Math.abs(this.val * 10);
@@ -207,11 +287,21 @@ class Chunk {
         //     chunkVerts.colors[this.index] = new THREE.Color(0.2, 0.4, 1);
         // }
         chunkVerts.colors[this.index] = new THREE.Color(0.1 - this.val, 0.8 + this.val / 5, 1 + this.val);
+
+        chunkVerts.colors[this.index].r *= Math.abs(this.val) / 800;
+        chunkVerts.colors[this.index].g *= Math.abs(this.val) / 800;
+        chunkVerts.colors[this.index].b *= Math.abs(this.val) / 800;
+
+
+        this.mat2.color.r = chunkVerts.colors[this.index].r * 0.2 + 0.1;
+        this.mat2.color.g = chunkVerts.colors[this.index].g * 0.1 + 0.1;
+        this.mat2.color.b = chunkVerts.colors[this.index].b * 0.2 + 0.15;
+
         chunkVerts2.colors[this.index].setHSL(
             0.5 + this.val2 / 50, 0.3, Math.abs(this.val2) / 30 + 0.1
         );
 
-        this.mesh2.position.z = 0;
+        // this.mesh2.position.z = 0;
     }
 }
 
@@ -237,7 +327,7 @@ class Chunk {
     }
 
     function updateChunks(t) {
-        chunkContainer.rotation.z += 0.001;
+        chunkContainer.rotation.z = 0.7 + Math.sin(t / 10000) * 0.1;
         //loaded stuff - lets add stuff
         if (chunks.length < data.chunks.positions.length) {
             console.log("Building Chunks..");
@@ -269,7 +359,7 @@ class Chunk {
     var cars = [];
 
     var cars_geoms = [];
-    var TAIL_LEN = 5;
+    var TAIL_LEN = 15;
     function allocateCar() {
         var o = undefined;
         if (cars_geoms.length > 0) {
@@ -283,21 +373,21 @@ class Chunk {
             });
             for (var i = 0; i < TAIL_LEN; i++) {
                 geo.vertices.push(new THREE.Vector3(0, 0, 0));
-                var c = 1 - i / TAIL_LEN;
-                geo.colors.push(new THREE.Color(c, c, c));
+                var c = (1 - i / TAIL_LEN);
+                geo.colors.push(new THREE.Color(c * c * 0.8, c * c * 1, c * c * c * 0.9));
             }
             var lines = new THREE.Line(geo, mat);
             o = {
                 geo: geo,
                 mat: mat,
                 mesh: lines,
-                z: Math.random() * 300 + 10
+                z: Math.random() * 30 + 10
             };
             carsContainer.add(lines);
         }
         // o.geo.vertices = [];
         o.mesh.visible = true;
-        o.z = o.ztarget = Math.random() * 300 + 10
+        o.z = o.ztarget = Math.random() * 30 + 10
         o.init = true;
         return o;
     }
@@ -338,8 +428,8 @@ class Chunk {
         }
         for (var i = 0; i < cars.length; i++) {
             if (cars[i] && cars[i].pos < 1.3) {
-                if(Math.random() < 0.001) {
-                    cars[i].obj.ztarget = Math.random() * 300 + 10;
+                if (Math.random() < 0.001) {
+                    cars[i].obj.ztarget = Math.random() * 30 + 10;
                 }
                 cars[i].obj.z = ease(cars[i].obj.z, cars[i].obj.ztarget, 0.01);
                 cars[i].pos += cars[i].speed;

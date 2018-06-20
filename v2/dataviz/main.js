@@ -16,16 +16,19 @@ socket.on("pack", (p) => {
     console.log(p);
 });
 
-var camera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 0.1, 1000);
+var camera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 0.1, 3000);
 var renderer = new THREE.WebGLRenderer({
-    alpha: true
+    alpha: true,
+    antialias:true
 });
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
 
-var light = new THREE.DirectionalLight(0xffffff, 3);
-scene.add(light);
+// var light = new THREE.DirectionalLight(0xeeffff, 10);
+// scene.add(light);
+
+scene.fog = new THREE.Fog(0, 0, 1200)
 
 // scene.add(light2);
 camera.position.z = 350;
