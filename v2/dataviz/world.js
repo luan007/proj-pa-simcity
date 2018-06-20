@@ -1,7 +1,12 @@
 var simplex = new SimplexNoise('SEED');
 
 var aggregated_view_factors = {};
+var aggregated_view_counts = {};
+var aggregated_view_rs = {};
 var aggregated_computed_factors = {};
+
+var total_count = 0;
+var total_rs = 0;
 var viewContainer = new THREE.Group();
 
 
@@ -219,14 +224,21 @@ class Entity {
         //     this.soi.scale.y = 100;
         //     this.soi.scale.z = 100;
         // }
+        total_count++;
         aggregated_view_factors[this.variables.name] = aggregated_view_factors[this.variables.name] || 0;
         aggregated_view_factors[this.variables.name] +=
             this.factors[view] || 0;
 
+        aggregated_view_counts[this.variables.name] = aggregated_view_counts[this.variables.name] || 0;
+        aggregated_view_counts[this.variables.name] += 1;
+
+        aggregated_view_rs[this.variables.name] = aggregated_view_rs[this.variables.name] || 0;
+        aggregated_view_rs[this.variables.name] += this.variables.size;
 
         aggregated_computed_factors[this.variables.name] = aggregated_computed_factors[this.variables.name] || 0;
         aggregated_computed_factors[this.variables.name] +=
             this.factors[view] || 0;
+        total_rs += this.variables.size;
     }
 }
 
@@ -317,7 +329,10 @@ class Chunk {
 //world
 {
     function updateWorld(t) {
+        total_rs = total_count = 0;
         aggregated_view_factors = {};
+        aggregated_view_rs = {};
+        aggregated_view_counts = {};
         aggregated_computed_factors = {};
         //loaded stuff - lets add stuff
         if (world.length < data.condensed.worldConfigs.length) {
@@ -475,7 +490,6 @@ class Chunk {
                         cars[i].obj.geo.vertices[q].z = cars[i].obj.geo.vertices[0].z;
                     }
                 }
-
                 // carCanvas.translate(point.x / 2, point.y / 2);
 
                 // ellipse(0, 0, 5, 5);

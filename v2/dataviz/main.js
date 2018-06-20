@@ -14,6 +14,7 @@ var data = undefined;
 
 socket.on("pack", (p) => {
     data = p;
+    console.log(data.names);
     console.log(p);
 });
 

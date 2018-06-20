@@ -83,6 +83,55 @@
             background-size: 3% auto;
             background-position: 50% 50%;
         }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            right: 0;
+            left: 0;
+        }
+
+        #logo {
+            position: absolute;
+            bottom: 35px;
+            right: 40px;
+            width: auto;
+            height: 60px;
+            display: block;
+            opacity: 1;
+            top: auto;
+            left: auto;
+        }
+
+        #pa {
+            position: absolute;
+            top: 45px;
+            right: 50px;
+            width: auto;
+            height: 60px;
+            display: block;
+            font-size: 60px;
+            font-weight: lighter;
+            opacity: 0.8;
+            color: #ffffff;
+            text-align: right;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+        #pa2 {
+            position: absolute;
+            top: 120px;
+            right: 50px;
+            width: auto;
+            display: block;
+            font-size: 24px;
+            font-weight: lighter;
+            letter-spacing: 2px;
+            opacity: 0.4;
+            color: #ffffff;
+            text-align: right;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
     </style>
 
     <script src='./libraries/three.js'></script>
@@ -124,7 +173,11 @@
     <script src='world.js'></script>
     <script src='visualization.js'></script>
     <script src='main.js'></script>
-
+    <div class='overlay'>
+        <div id='pa'>智慧城市</div>
+        <div id='pa2'>PINGAN SMART CITY</div>
+        <img id='logo' src="./assets/Ping_An_Logo.svg" alt="">
+    </div>
 </body>
 
 </html>

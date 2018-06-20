@@ -310,7 +310,7 @@ class Entity {
 
 //world
 {
-
+    var names = {};
     function initWorld() {
         var all_buildings = document.querySelectorAll("#building_layout > rect, #building_layout > g > rect");
         for (var i = 0; i < all_buildings.length; i++) {
@@ -332,6 +332,9 @@ class Entity {
             })
             if (cur.id.trim() == "") continue;
 
+            if (cur.attributes["data-name"]) {
+                names[cur.attributes["data-name"].value.trim().replace(" ", "")] = 1;
+            }
             if (cur.id.startsWith('随意')) {
                 // world.push(e({
                 //     position: [np.x, np.y],
@@ -347,6 +350,7 @@ class Entity {
                             position: [np.x, np.y],
                             rotation: r,
                             name: j,
+                            displayName: cur.id
                         }, scores[j], render_building));
                         break;
                     }

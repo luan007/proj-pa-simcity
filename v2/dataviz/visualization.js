@@ -46,7 +46,7 @@ function updateOverlays(t) {
     drawCharts(t);
 
     if (radarCanvas) {
-        image(radarCanvas, 1920 - 500, 1080 - 500);
+        image(radarCanvas, 1920 - 500, 1080 - 800);
     }
 }
 
@@ -173,14 +173,37 @@ function drawRadar(x, y, t) {
 }
 
 
-function drawCharts(t) {
-    
-    var keys = Object.keys(aggregated_computed_factors);
+var eased_aggregated_computed_factors = {};
 
+function drawCharts(t) {
+
+    var keys = Object.keys(aggregated_computed_factors);
+    var max_val = 0;
+    var min_val = 0;
+
+    var id = 0;
+    keys = keys.map(n => {
+        id += 0.01;
+        eased_aggregated_computed_factors[n] = ease(
+            (eased_aggregated_computed_factors[n] || 0) + (noise(id, t / 1000) - 0.5) * 1,
+            aggregated_computed_factors[n],
+            0.1
+        )
+        max_val = max(eased_aggregated_computed_factors[n], max_val);
+        min_val = min(eased_aggregated_computed_factors[n], min_val);
+        return {
+            k: n,
+            v: eased_aggregated_computed_factors[n]
+        };
+    }).sort((a, b) => {
+        return -a.v + b.v;
+    });
+    openned = -1;
+    var targetY = 0;
     push();
     var seg = 100;
-    var openned = 200;
-    translate(80, 80);
+    var openned = 0;
+    translate(80, 240);
     fill(255, 10);
     stroke(255);
     imageMode(CENTER);
@@ -228,17 +251,139 @@ function drawCharts(t) {
             text(" - " + abs(myScores[i] * 100).toFixed(2), 100 - w / 2, 20);
         }
         pop();
-
-        if(opennedSegs[i] > 0.8) {
-            push();
-            pop();
+        translate(0, seg);
+        if (view == i) {
+            openned = targetY;
         }
-
-        translate(0, opennedSegs[i] * openned + seg);
+        targetY += seg;
     }
+    openned += 240 - 80;
     pop();
+    if (openned != -1) {
+        blendMode(BLEND);
+        var p2x = 40;
+        var p2y = openned + 80;
+        push();
+        translate(300, 0);
+        fill(0);
+        ellipse(p2x, p2y, 15, 15);
+        stroke(255);
+        noFill();
+
+        var ext = 50;
+        var offset = 0;
+        var partitions = -1;
+        for (var i = 0; i < keys.length; i++) {
+            if (abs(keys[i].v) < 10) continue;
+
+            var p1x = 150;
+
+            var alpha = abs(keys[i].v) + 180;
+
+            if (keys[i].v > 0 && partitions != 0) {
+                partitions = 0;
+                fill(50, 150, 255);
+                noStroke();
+                textSize(18);
+                textAlign(LEFT, CENTER);
+                text("[ 贡献来源 ]", p1x, offset + 50);
+                offset += 40;
+            } else if (keys[i].v < 0 && partitions != 1) {
+                partitions = 1;
+                fill(255, 50, 0);
+                noStroke();
+                textSize(18);
+                textAlign(LEFT, CENTER);
+                text("[ 问题来源 ]", p1x, offset + 50);
+                offset += 40;
+            }
+
+
+
+            blendMode(ADD);
+            if (keys[i].v > 0) {
+                stroke(50 + keys[i].v * 0.2, keys[i].v + 120, keys[i].v * 50 + 200, alpha);
+            } else {
+                stroke(255, 255 - min(255, abs(keys[i].v) * 10), 0, alpha);
+            }
+            noFill();
+            strokeWeight(min(5, sqrt(abs(keys[i].v) / 10)));
+            var p1y = 40 + offset;
+            offset += 70;
+            var dy = (p2y - p1y) / 8
+            var dx = -(p2x - p1x) / 2.5
+            beginShape();
+            curveVertex(p2x, p2y + 3);
+            curveVertex(p2x, p2y + 3);
+            curveVertex(p2x + dx, p2y - dy);
+            curveVertex(p1x - dx, p1y + 15 + dy);
+            curveVertex(p1x + 10, p1y + 15);
+            curveVertex(p1x + 10, p1y + 15);
+            endShape();
+
+            blendMode(ADD);
+            noStroke();
+
+            if (keys[i].v > 0) {
+                fill(50 + keys[i].v * 0.2, keys[i].v + 120, keys[i].v * 50 + 200, alpha);
+            } else {
+                fill(255, 255 - min(255, abs(keys[i].v) * 10), 0, alpha);
+            }
+            textAlign(LEFT, TOP);
+            textSize(12);
+            
+            textFont("monospace");
+            rect(p1x + 50, p1y + 25, min(300, abs(keys[i].v)), 3);
+            fill(100, alpha);
+            rect(p1x + 50, p1y + 30, aggregated_view_rs[keys[i].k] / total_rs * 300, 3);
+            
+            noStroke();
+            fill(255, 100);
+            text("AREA: " + (aggregated_view_rs[keys[i].k] / total_rs * 100).toFixed(0) + "%", p1x + 53 + aggregated_view_rs[keys[i].k] / total_rs * 300, p1y + 28);
+            blendMode(BLEND);
+
+            if (keys[i].v > 0) {
+                stroke(50 + keys[i].v * 0.2, keys[i].v + 120, keys[i].v * 50 + 200, alpha);
+            } else {
+                stroke(255, 255 - min(255, abs(keys[i].v) * 10), 0, alpha);
+            }
+            fill(0);
+            strokeWeight(1 + sqrt(abs(keys[i].v)) / 5);
+            rect(p1x, p1y, 30, 30);
+
+
+            if (keys[i].v > 0) {
+                fill(50 + keys[i].v * 0.2, keys[i].v + 120, keys[i].v * 50 + 200, alpha);
+            } else {
+                fill(255, 255 - min(255, abs(keys[i].v) * 10), 0, alpha);
+            }
+
+            noStroke();
+            var name = keys[i].k;
+            for (var j in data.names) {
+                if (j.startsWith(keys[i].k)) {
+                    name = j;
+                    break;
+                }
+            }
+            textSize(20);
+            textFont("monospace");
+            text(name + " " + ((keys[i].v) > 0 ? "+" : "") + (keys[i].v).toFixed(2), p1x + 50, p1y - 3);
+            noFill();
+
+
+        }
+        blendMode(BLEND);
+        stroke(255);
+        strokeWeight(3);
+        fill(0);
+        rect(p2x - 15 / 2, p2y - 15 / 2, 15, 15);
+        // line(500, 80, 40, openned + 80);
+        pop();
+    }
+
 
     if (frameCount % 100 == 0) {
-        console.log(aggregated_view_factors);
+        console.log(keys);
     }
 }

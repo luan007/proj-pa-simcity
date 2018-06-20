@@ -130,6 +130,7 @@ setInterval(() => {
         computed: computed,
         condensed: condensed,
         config: config,
-        chunks: chunks
+        chunks: chunks,
+        names: names
     });
 }, 1000);
