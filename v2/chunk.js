@@ -5,9 +5,19 @@ app.stage.addChild(conv_container);
 app.stage.addChild(chunk_container);
 
 var touchSelectors = [];
+var leapSelectors = [];
+
+var func = {
+    0: "热区",
+    1: "增强+",
+    2: "决策辅助",
+    3: "宏观模式",
+}
+
 class TouchSelection {
-    constructor() {
+    constructor(mode) {
         this.position = [0, 0];
+        this.tip = [0, 0];
         this.active = false;
         this.activeEase = 0;
         this.linked = [];
@@ -16,14 +26,164 @@ class TouchSelection {
         this.breathe_speed = 1.5;
         this.score = 0;
         this.selected = [];
+        this.leapSelectionMode = 0;
+
+        this.hand = undefined;
+        if (!mode) {
+            this._mode = 0;
+            this.linkZone = config.linkZone;
+            this.touchZone = config.touchZone;
+            this.lensMode = config.lensMode;
+
+        } else {
+            this._mode = 1;
+        }
+
+        this.savedPosition = null;
+        this.prevSelectionMode = 0;
     }
 
     render(t) {
-
         this.breathe = (sin(t * this.breathe_speed + this.seed) * 0.5 + 0.5) * 0.3 + 1;
         this.activeEase = ease(this.activeEase, this.active ? 1 : 0, 0.2);
-
         if (this.activeEase < 0.01) return;
+        if (this.leapSelectionMode) {
+            if (this.prevSelectionMode == 0) {
+                this.savedPosition = [this.position[0], this.position[1]]
+            }
+            cv.overlay.blendMode(ADD);
+            cv.overlay.push();
+            cv.overlay.rectMode(CENTER);
+            cv.overlay.noFill();
+            cv.overlay.stroke(255);
+            cv.overlay.strokeWeight(3);
+            cv.overlay.ellipse(this.savedPosition[0], this.savedPosition[1], 200, 200);
+            cv.overlay.line(this.tip[0], this.tip[1], this.savedPosition[0], this.savedPosition[1]);
+
+            var vec = createVector(this.savedPosition[0] - this.tip[0], this.savedPosition[1] - this.tip[1]);
+            var heading = vec.heading();
+            var deg = -3.4;
+            var seg = 0.5;
+            var ringR = 150 * 2;
+            cv.overlay.imageMode(CENTER);
+            cv.overlay.strokeCap(SQUARE);
+
+            for (var i in mapper) {
+                deg += seg;
+                var s = sin(deg) * ringR;
+                var c = cos(deg) * ringR;
+                var sel = abs(heading - PI - (deg - seg * 0.4)) < seg / 2;
+                if (sel && this.hand[8]) {
+                    //clicked
+                    config.view = i;
+                }
+                cv.overlay.noFill();
+                cv.overlay.strokeWeight(70);
+                cv.overlay.stroke(config.view == i ? 1 : 255, 255, sel ? 0 : 255, config.view == i ? 170 : (sel ? 150 : 100));
+                cv.overlay.push();
+                cv.overlay.translate(this.savedPosition[0], this.savedPosition[1]);
+                cv.overlay.rotate(deg - seg * 0.4 + PI);
+                cv.overlay.translate(-ringR / 2, 0);
+                cv.overlay.rotate(- PI / 2);
+                cv.overlay.scale(0.3);
+                cv.overlay.image(mapper[i], 0, 0);
+                cv.overlay.pop();
+                cv.overlay.arc(this.savedPosition[0], this.savedPosition[1], ringR, ringR, deg - seg * 0.8, deg);
+            }
+
+            deg += 0.3;
+            ringR = 190 * 2;
+            for (var i in func) { //热区模式，增强模式
+                deg += seg;
+                var txt = func[i];
+                var s = sin(deg) * ringR;
+                var c = cos(deg) * ringR;
+                var sel = abs(heading + PI - (deg - seg * 0.4)) < seg / 2;
+                if (sel && this.hand[8]) {
+                    //clicked
+                    // config.view = i;
+                    if (i == 0) {
+                        config.showHeatHint = !config.showHeatHint;
+                        if (config.showHeatHint) {
+                            config.heatMode = 1;
+                        } else if (!config.magnification == 0.5) {
+                            config.heatMode = 0;
+                        }
+                    } else if (i == 1) {
+                        config.magnification = config.magnification == 0.5 ? 0.1 : 0.5;
+                        if (!config.showHeatHint) {
+                            config.heatMode = 0;
+                        } else if (config.magnification == 0.1) {
+                            config.heatMode = 1;
+                        }
+                    } else if (i == 2) {
+                        if (!config.showCriticalHint) {
+                            config.warning_threshold = 40;
+                            config.showCriticalHint = true;
+                        } else if (config.warning_threshold == 40) {
+                            config.warning_threshold = 30;
+                        } else if (config.warning_threshold == 30) {
+                            config.warning_threshold = 5;
+                        } else if (config.warning_threshold == 5) {
+                            config.showCriticalHint = false;
+                            config.warning_threshold = 40;
+                        }
+                    } else if (i == 3) {
+                        config.super_dilute = !config.super_dilute;
+                    }
+                }
+                if (i == 2) {
+                    if (config.showCriticalHint) {
+                        txt += "\n(灵敏度 = " + (100 - config.warning_threshold) + "%)"
+                    } else {
+                        txt += "\n(已关闭)"
+                    }
+                }
+                if (i == 3) {
+                    if (config.super_dilute) {
+                        txt += "\n! 已启动 !"
+                    } 
+                }
+                cv.overlay.noFill();
+                cv.overlay.strokeWeight(20);
+                cv.overlay.stroke(255, 255, sel ? 0 : 255, (sel ? 150 : 100));
+                cv.overlay.push();
+                cv.overlay.translate(this.savedPosition[0], this.savedPosition[1]);
+                cv.overlay.rotate(deg - seg * 0.4 + PI);
+                cv.overlay.translate(-ringR / 2 + 30, 0);
+                cv.overlay.rotate(- PI / 2 - PI);
+                cv.overlay.textAlign(CENTER, CENTER);
+                cv.overlay.fill(255);
+                cv.overlay.noStroke();
+                cv.overlay.textSize(13);
+                cv.overlay.text(txt, 0, 0);
+                cv.overlay.scale(0.3);
+                cv.overlay.pop();
+                cv.overlay.arc(this.savedPosition[0], this.savedPosition[1], ringR, ringR, deg - seg * 0.8, deg);
+            }
+
+            this.prevSelectionMode = this.leapSelectionMode;
+            cv.overlay.pop();
+            return;
+        } else if (this.prevSelectionMode == 1) {
+            cv.overlay.blendMode(ADD);
+            cv.overlay.push();
+            cv.overlay.noFill();
+            cv.overlay.rectMode(CENTER);
+            // cv.overlay.rect(this.position[0], this.position[1], 300, 300);
+            cv.overlay.pop();
+            this.prevSelectionMode = this.leapSelectionMode;
+            return;
+        }
+
+
+        if (!this._mode) {
+            this.linkZone = config.linkZone;
+            this.touchZone = config.touchZone;
+            this.lensMode = config.lensMode;
+        }
+        // console.log(this.linkZone);
+        var touchZone = this.touchZone;
 
         // if (random(this.activeEase) < 0.3) {
         //     return;
@@ -31,8 +191,8 @@ class TouchSelection {
 
         // cv.overlay.strokeCap(SQUARE);
         cv.overlay.blendMode(ADD);
-        if (config.lensMode == 0) {
-            var s = (config.touchZone * 2 + 1) * blockSize * this.activeEase;
+        if (this.lensMode == 0) {
+            var s = (touchZone * 2 + 1) * blockSize * this.activeEase;
             cv.overlay.push();
             cv.overlay.stroke(255, 100);
             cv.overlay.noFill();
@@ -55,28 +215,28 @@ class TouchSelection {
             cv.overlay.push();
             cv.overlay.blendMode(BLEND);
             cv.overlay.noStroke();
-            cv.overlay.translate(this.position[0] - (config.touchZone * 1 + 1) * blockSize + blockSize / 2, this.position[1])
+            cv.overlay.translate(this.position[0] - (touchZone * 1 + 1) * blockSize + blockSize / 2, this.position[1])
             // cv.overlay.fill(255, this.activeEase * 255);
             cv.overlay.fill(150, this.activeEase * 255);
             cv.overlay.textAlign(LEFT, CENTER);
             cv.overlay.textSize(20);
-            if(avg > 0) {
+            if (avg > 0) {
                 cv.overlay.fill(40, 150, 255, this.activeEase * 255);
             } else {
                 cv.overlay.fill(255, 100, 33, this.activeEase * 255);
             }
             cv.overlay.textFont("Monospace");
             cv.overlay.textSize(16);
-            cv.overlay.text((avg > 0 ? "+" : "") + avg.toFixed(2), 5, (config.touchZone * 1 + 1) * blockSize);
+            cv.overlay.text((avg > 0 ? "+" : "") + avg.toFixed(2), 5, (touchZone * 1 + 1) * blockSize);
 
             cv.overlay.textFont("PingFang SC");
             cv.overlay.textSize(12);
-            cv.overlay.text("" + explain(config.view), 5, (config.touchZone * 1 + 1) * blockSize + 20);
+            cv.overlay.text("" + explain(config.view), 5, (touchZone * 1 + 1) * blockSize + 20);
             cv.overlay.pop();
 
         }
-        else if (config.lensMode == 1) {
-            var link = (config.linkZone * 2 + 1) * blockSize * this.activeEase;
+        else if (this.lensMode == 1) {
+            var link = (this.linkZone * 2 + 1) * blockSize * this.activeEase;
 
             cv.overlay.noStroke();
             cv.overlay.fill(255, 30);
@@ -171,11 +331,11 @@ class TouchSelection {
             return;
         }
 
-        if (config.lensMode == 1) {
+        if (this.lensMode == 1) {
             for (var i = 0; i < world.length; i++) {
                 if (world[i].computedFactors && world[i].computedFactors[config.view] &&
                     dist(world[i].variables.position[0], world[i].variables.position[1] + 33 / 2,
-                        this.position[0], this.position[1]) < (config.linkZone * 2 + 1) * blockSize) {
+                        this.position[0], this.position[1]) < (this.linkZone * 2 + 1) * blockSize) {
                     world[i].highlit = true;
                     this.linked.push(world[i]);
                 }
@@ -264,7 +424,7 @@ class Chunk {
             if (val < 0) {
                 rgb = hslToRgb(0, 0.5 + op * 0.5, 0.7 * op);
             }
-            
+
         }
         this.targetOpacity = op;
         var blue = 0;
@@ -398,6 +558,8 @@ function resetChunks() {
 }
 
 function setSelected(x, y, t) {
+    x = round(x);
+    y = round(y);
     if (x >= 0 && y >= 0 && x < le_world_size.w && y < le_world_size.h) {
         le_world[x + y * le_world_size.w].selected = true;
         t.selected.push(le_world[x + y * le_world_size.w]);
@@ -414,13 +576,17 @@ function updateChunks(t) {
         touchSelectors[i].active = false;
     }
 
+    for (var i = 0; i < leapSelectors.length; i++) {
+        leapSelectors[i].active = false;
+    }
+
     for (var i = 0; i < touches.length; i++) {
-        if(touches[i].y > 960) continue;
+        if (touches[i].y > 960) continue;
         touchSelectors[i] = touchSelectors[i] || new TouchSelection();
         touchSelectors[i].position[0] = touches[i].x;
         touchSelectors[i].position[1] = touches[i].y;
         touchSelectors[i].active = true;
-        if (config.lensMode == 0) {
+        if (touchSelectors[i].lensMode == 0) {
             if (touchSelectors[i].selected.length > 0) {
                 touchSelectors[i].selected = [];
             }
@@ -433,13 +599,50 @@ function updateChunks(t) {
             p.y /= blockSize;
             p.x = Math.round(p.x - 0.5);
             p.y = Math.round(p.y - 0.5);
-            for (var x = -config.touchZone; x <= config.touchZone; x++) {
-                for (var y = -config.touchZone; y <= config.touchZone; y++) {
+            for (var x = -touchSelectors[i].touchZone; x <= touchSelectors[i].touchZone; x++) {
+                for (var y = -touchSelectors[i].touchZone; y <= touchSelectors[i].touchZone; y++) {
                     setSelected(x + p.x, y + p.y, touchSelectors[i])
                 }
             }
         }
     }
+
+    for (var i = 0; i < hands_pos.length; i++) {
+        if (hands_pos[i].y > 960) continue;
+        leapSelectors[i] = leapSelectors[i] || new TouchSelection(1);
+        leapSelectors[i].position[0] = hands_pos[i][0] + w / 2;
+        leapSelectors[i].position[1] = hands_pos[i][1] + h / 2;
+        leapSelectors[i].hand = hands_pos[i];
+        leapSelectors[i].tip[0] = hands_pos[i][5] + w / 2;
+        leapSelectors[i].tip[1] = hands_pos[i][6] + h / 2;
+
+        leapSelectors[i].active = true;
+        leapSelectors[i].lensMode = hands_pos[i][3] > 0.2 ? 1 : 0;
+        leapSelectors[i].touchZone = 1 + (hands_pos[i][2] * 8);
+        leapSelectors[i].linkZone = 1 + (hands_pos[i][2] * 8);
+        leapSelectors[i].leapSelectionMode = (hands_pos[i][3] < 0.9 && hands_pos[i][4] > 0.1);
+        if (leapSelectors[i].leapSelectionMode) continue;
+        if (leapSelectors[i].lensMode == 0) {
+            if (leapSelectors[i].selected.length > 0) {
+                leapSelectors[i].selected = [];
+            }
+            var p = {
+                x: leapSelectors[i].position[0],
+                y: leapSelectors[i].position[1]
+            };
+            // console.log(p);
+            p.x /= blockSize;
+            p.y /= blockSize;
+            p.x = Math.round(p.x - 0.5);
+            p.y = Math.round(p.y - 0.5);
+            for (var x = -leapSelectors[i].touchZone; x <= leapSelectors[i].touchZone; x++) {
+                for (var y = -leapSelectors[i].touchZone; y <= leapSelectors[i].touchZone; y++) {
+                    setSelected(x + p.x, y + p.y, leapSelectors[i])
+                }
+            }
+        }
+    }
+
 
     for (var i = 0; i < le_world.length; i++) {
         le_world[i].update(t);
@@ -454,5 +657,10 @@ function updateChunks(t) {
     for (var i = 0; i < touchSelectors.length; i++) {
         touchSelectors[i].update(t);
         touchSelectors[i].render(t);
+    }
+
+    for (var i = 0; i < leapSelectors.length; i++) {
+        leapSelectors[i].update(t);
+        leapSelectors[i].render(t);
     }
 }

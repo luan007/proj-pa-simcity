@@ -1,5 +1,4 @@
 
-
 function ease(a, b, t) {
     if (a == b || Math.abs(a - b) < 0.001) return b;
     return a + (b - a) * t;
@@ -9,13 +8,13 @@ function map(a, b, c, d, e) {
     return (b - a) / (c - b) * (e - d) + d;
 }
 
-
 var data = undefined;
 
 socket.on("pack", (p) => {
     data = p;
     console.log(data.names);
     console.log(p);
+    view = data.config.view;
 });
 
 var tcam = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 0.1, 3000);

@@ -162,6 +162,7 @@ function initVfx() {
             j: loadImage("assets/2x/user.png", icocb),
             t: loadImage("assets/2x/car.png", icocb),
         }
+        window.mapper = mapper;
         window.updateBars = function (t) {
             if (icos != Object.keys(mapper).length || !computed.score) {
                 return;
@@ -251,13 +252,13 @@ function initVfx() {
             config.warning_threshold = toggle_tiny("灵敏度\n低", 880 + 70 * 3 + 200, 3, 50, 70, config.warning_threshold == 40) ? 40 : config.warning_threshold;
 
 
-            config.lensMode = toggle_z12(config.lensMode == 1 ? "透镜\n关系分析" : "透镜\n区块洞察", 880 + 70 * 3 + 100 + 200, 3, 80, 70, config.lensMode == 0) ? 0 : 1;
+            // config.lensMode = toggle_z12(config.lensMode == 1 ? "透镜\n关系分析" : "透镜\n区块洞察", 880 + 70 * 3 + 100 + 200, 3, 80, 70, config.lensMode == 0) ? 0 : 1;
 
-            if (config.lensMode == 1) {
-                config.linkZone = toggle_z12(config.linkZone == 3 ? "建筑\n关系" : "街区\n关系", 880 + 70 * 4 + 20 + 100 + 200, 3, 60, 70, config.linkZone == 3) ? 3 : 5;
-            } else {
-                config.touchZone = toggle_z12(config.touchZone == 1 ? "2KM" : "10KM", 880 + 70 * 4 + 20 + 100 + 200, 3, 60, 70, config.touchZone == 1) ? 1 : 5;
-            }
+            // if (config.lensMode == 1) {
+            //     config.linkZone = toggle_z12(config.linkZone == 3 ? "建筑\n关系" : "街区\n关系", 880 + 70 * 4 + 20 + 100 + 200, 3, 60, 70, config.linkZone == 3) ? 3 : 5;
+            // } else {
+            //     config.touchZone = toggle_z12(config.touchZone == 1 ? "2KM" : "10KM", 880 + 70 * 4 + 20 + 100 + 200, 3, 60, 70, config.touchZone == 1) ? 1 : 5;
+            // }
 
             // config.showCriticalHint = toggle("决策\n提示", 830, 3, 70, 70, config.showCriticalHint);
 
@@ -265,6 +266,17 @@ function initVfx() {
         }
     }
 
+    //Leap operations
+    {
+        window.updateLeap = function (t) {
+            if (!config.enableLeap) { return; }
+            var c = cv.overlay;
+            if (hands_pos.length > 0) {
+                c.fill(255, 255, 255 - hands_pos[3] * 255);
+                c.ellipse(hands_pos[0] + 1920 / 2, hands_pos[1] + 960 / 2, 30 * hands_pos[2], 30 * hands_pos[2]);
+            }
+        }
+    }
 }
 
 function toggle(s, x, y, w, h, selected) {

@@ -30,6 +30,7 @@ function draw() {
 
     //begin - render pipeline
     // if (frameCount % 4 < 3) {
+    updateLeapHandPos(t);
     updateTouchless();
     updateCars(t);
     updateGrass(t);
@@ -38,6 +39,9 @@ function draw() {
     updateWorld(t);
     updateChunks(t);
     updateBars(t);
+
+    updateLeap(t);
+
     //end   - render pipeline
 
     cv.buildings.clear();

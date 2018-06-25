@@ -64,6 +64,7 @@ function explain(t) {
 }
 
 var config = {
+    enableLeap: true,
     simulatorFps: 15,
     affector_range: 10,
     simulation_radius: 10,
@@ -75,7 +76,7 @@ var config = {
     linkZone: 3,
     lensMode: 0,
     showCriticalHint: false,
-    showHeatHint: true,
+    showHeatHint: false,
     heatMapOpacityCap: 1,
     heatMode: 0, //0 = normal, 1 = high contrast,
     touchless_timeout: 5000,
@@ -124,7 +125,6 @@ var strokeTexture = PIXI.Texture.fromImage('assets/strokes.png')
 
 document.body.appendChild(app.view);
 
-
 setInterval(() => {
     socket.emit("pack", {
         computed: computed,
@@ -134,3 +134,50 @@ setInterval(() => {
         names: names
     });
 }, 1000);
+
+var hands = [];
+var hands_pos = [];
+var clickState = 0;
+var last_click = [];
+var last_t = [];
+if (config.enableLeap) {
+    Leap.loop((frame) => {
+        hands = frame.hands;
+        if (!config.enableLeap) { return; }
+    });
+}
+
+function updateLeapHandPos() {
+    hands_pos = [];
+    if (hands.length > 0) {
+        //sphereCenter
+        for (var i = 0; i < hands.length; i++) {
+            var x = hands[i].palmPosition[0] * 5;
+            var z = 1 - Math.min(3, Math.max(0, hands[i].palmPosition[1] / 200)) / 3;
+            var y = hands[i].palmPosition[2] * 5;
+            hands_pos.push([
+                x, y, z, hands[i].grabStrength, hands[i].pinchStrength,
+                hands[i].fingers[1].tipPosition[0] * 5,
+                hands[i].fingers[1].tipPosition[2] * 5 + 500,
+                1 - Math.min(3, Math.max(0, hands[i].fingers[1].tipPosition[1] / 200)) / 3,
+                0
+            ])
+            hands_pos[i][8] = 0;
+
+
+            var ptcur = hands_pos[i][7] - hands_pos[i][2];
+            last_t[i] = last_t[i] || 0;
+            last_click[i] = last_click[i] || Date.now();
+            if (last_t[i] && Math.abs((ptcur - last_t[i]) * 500) > 5) {
+                // console.log((ptcur - last_t[i]));
+                if (Date.now() - last_click[i] > 300) {
+                    last_click[i] = Date.now();
+                    hands_pos[i][8] = 1;
+                }
+            }
+            last_t[i] = ptcur;
+
+        }
+    }
+
+}

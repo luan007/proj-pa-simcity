@@ -13,7 +13,7 @@ io.on('connection', function (socket) {
 });
 
 
-var p = '/dev/cu.wchusbserial14520';
+var p = '/dev/cu.wchusbserial1460';
 
 var SerialPort = require('serialport');
 var port = new SerialPort(p, {
