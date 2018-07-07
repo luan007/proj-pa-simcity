@@ -1,0 +1,1734 @@
+{
+    "code": "200",
+    "msg": "success",
+    "data": [
+        {
+            "statis_date": "2018-06-26 00:00:00",
+            "new_user": "2951",
+            "active_user": "280679",
+            "total_user": 566109634
+        },
+        {
+            "statis_date": "2018-06-26 00:05:00",
+            "new_user": "5862",
+            "active_user": "441415",
+            "total_user": 566112545
+        },
+        {
+            "statis_date": "2018-06-26 00:10:00",
+            "new_user": "8665",
+            "active_user": "571884",
+            "total_user": 566115348
+        },
+        {
+            "statis_date": "2018-06-26 00:15:00",
+            "new_user": "11336",
+            "active_user": "684866",
+            "total_user": 566118019
+        },
+        {
+            "statis_date": "2018-06-26 00:20:00",
+            "new_user": "13999",
+            "active_user": "784634",
+            "total_user": 566120682
+        },
+        {
+            "statis_date": "2018-06-26 00:25:00",
+            "new_user": "16601",
+            "active_user": "873850",
+            "total_user": 566123284
+        },
+        {
+            "statis_date": "2018-06-26 00:30:00",
+            "new_user": "19309",
+            "active_user": "954999",
+            "total_user": 566125992
+        },
+        {
+            "statis_date": "2018-06-26 00:35:00",
+            "new_user": "21887",
+            "active_user": "1029190",
+            "total_user": 566128570
+        },
+        {
+            "statis_date": "2018-06-26 00:40:00",
+            "new_user": "24266",
+            "active_user": "1097195",
+            "total_user": 566130949
+        },
+        {
+            "statis_date": "2018-06-26 00:45:00",
+            "new_user": "26701",
+            "active_user": "1160543",
+            "total_user": 566133384
+        },
+        {
+            "statis_date": "2018-06-26 00:50:00",
+            "new_user": "29063",
+            "active_user": "1219988",
+            "total_user": 566135746
+        },
+        {
+            "statis_date": "2018-06-26 00:55:00",
+            "new_user": "31371",
+            "active_user": "1274913",
+            "total_user": 566138054
+        },
+        {
+            "statis_date": "2018-06-26 01:00:00",
+            "new_user": "33592",
+            "active_user": "1326600",
+            "total_user": 566140275
+        },
+        {
+            "statis_date": "2018-06-26 01:05:00",
+            "new_user": "35559",
+            "active_user": "1374477",
+            "total_user": 566142242
+        },
+        {
+            "statis_date": "2018-06-26 01:10:00",
+            "new_user": "37352",
+            "active_user": "1419692",
+            "total_user": 566144035
+        },
+        {
+            "statis_date": "2018-06-26 01:15:00",
+            "new_user": "39421",
+            "active_user": "1462374",
+            "total_user": 566146104
+        },
+        {
+            "statis_date": "2018-06-26 01:20:00",
+            "new_user": "41170",
+            "active_user": "1501850",
+            "total_user": 566147853
+        },
+        {
+            "statis_date": "2018-06-26 01:25:00",
+            "new_user": "42767",
+            "active_user": "1539595",
+            "total_user": 566149450
+        },
+        {
+            "statis_date": "2018-06-26 01:30:00",
+            "new_user": "44731",
+            "active_user": "1576449",
+            "total_user": 566151414
+        },
+        {
+            "statis_date": "2018-06-26 01:35:00",
+            "new_user": "46514",
+            "active_user": "1611223",
+            "total_user": 566153197
+        },
+        {
+            "statis_date": "2018-06-26 01:40:00",
+            "new_user": "48234",
+            "active_user": "1645496",
+            "total_user": 566154917
+        },
+        {
+            "statis_date": "2018-06-26 01:45:00",
+            "new_user": "50003",
+            "active_user": "1678435",
+            "total_user": 566156686
+        },
+        {
+            "statis_date": "2018-06-26 01:50:00",
+            "new_user": "51707",
+            "active_user": "1709013",
+            "total_user": 566158390
+        },
+        {
+            "statis_date": "2018-06-26 01:55:00",
+            "new_user": "53438",
+            "active_user": "1738338",
+            "total_user": 566160121
+        },
+        {
+            "statis_date": "2018-06-26 02:00:00",
+            "new_user": "55082",
+            "active_user": "1765473",
+            "total_user": 566161765
+        },
+        {
+            "statis_date": "2018-06-26 02:05:00",
+            "new_user": "56779",
+            "active_user": "1791666",
+            "total_user": 566163462
+        },
+        {
+            "statis_date": "2018-06-26 02:10:00",
+            "new_user": "58448",
+            "active_user": "1816351",
+            "total_user": 566165131
+        },
+        {
+            "statis_date": "2018-06-26 02:15:00",
+            "new_user": "60033",
+            "active_user": "1840179",
+            "total_user": 566166716
+        },
+        {
+            "statis_date": "2018-06-26 02:20:00",
+            "new_user": "61614",
+            "active_user": "1863167",
+            "total_user": 566168297
+        },
+        {
+            "statis_date": "2018-06-26 02:25:00",
+            "new_user": "63039",
+            "active_user": "1885234",
+            "total_user": 566169722
+        },
+        {
+            "statis_date": "2018-06-26 02:30:00",
+            "new_user": "64330",
+            "active_user": "1906785",
+            "total_user": 566171013
+        },
+        {
+            "statis_date": "2018-06-26 02:35:00",
+            "new_user": "65901",
+            "active_user": "1928271",
+            "total_user": 566172584
+        },
+        {
+            "statis_date": "2018-06-26 02:40:00",
+            "new_user": "67158",
+            "active_user": "1948863",
+            "total_user": 566173841
+        },
+        {
+            "statis_date": "2018-06-26 02:45:00",
+            "new_user": "68634",
+            "active_user": "1969587",
+            "total_user": 566175317
+        },
+        {
+            "statis_date": "2018-06-26 02:50:00",
+            "new_user": "70117",
+            "active_user": "1993692",
+            "total_user": 566176800
+        },
+        {
+            "statis_date": "2018-06-26 02:55:00",
+            "new_user": "71669",
+            "active_user": "2016106",
+            "total_user": 566178352
+        },
+        {
+            "statis_date": "2018-06-26 03:00:00",
+            "new_user": "72959",
+            "active_user": "2039348",
+            "total_user": 566179642
+        },
+        {
+            "statis_date": "2018-06-26 03:05:00",
+            "new_user": "74464",
+            "active_user": "2059702",
+            "total_user": 566181147
+        },
+        {
+            "statis_date": "2018-06-26 03:10:00",
+            "new_user": "75775",
+            "active_user": "2079136",
+            "total_user": 566182458
+        },
+        {
+            "statis_date": "2018-06-26 03:15:00",
+            "new_user": "76944",
+            "active_user": "2098244",
+            "total_user": 566183627
+        },
+        {
+            "statis_date": "2018-06-26 03:20:00",
+            "new_user": "78437",
+            "active_user": "2117274",
+            "total_user": 566185120
+        },
+        {
+            "statis_date": "2018-06-26 03:25:00",
+            "new_user": "79704",
+            "active_user": "2136750",
+            "total_user": 566186387
+        },
+        {
+            "statis_date": "2018-06-26 03:30:00",
+            "new_user": "81136",
+            "active_user": "2156602",
+            "total_user": 566187819
+        },
+        {
+            "statis_date": "2018-06-26 03:35:00",
+            "new_user": "82599",
+            "active_user": "2176491",
+            "total_user": 566189282
+        },
+        {
+            "statis_date": "2018-06-26 03:40:00",
+            "new_user": "83865",
+            "active_user": "2195990",
+            "total_user": 566190548
+        },
+        {
+            "statis_date": "2018-06-26 03:45:00",
+            "new_user": "85214",
+            "active_user": "2215855",
+            "total_user": 566191897
+        },
+        {
+            "statis_date": "2018-06-26 03:50:00",
+            "new_user": "86515",
+            "active_user": "2236263",
+            "total_user": 566193198
+        },
+        {
+            "statis_date": "2018-06-26 03:55:00",
+            "new_user": "87949",
+            "active_user": "2258876",
+            "total_user": 566194632
+        },
+        {
+            "statis_date": "2018-06-26 04:00:00",
+            "new_user": "89329",
+            "active_user": "2285693",
+            "total_user": 566196012
+        },
+        {
+            "statis_date": "2018-06-26 04:05:00",
+            "new_user": "90849",
+            "active_user": "2312010",
+            "total_user": 566197532
+        },
+        {
+            "statis_date": "2018-06-26 04:10:00",
+            "new_user": "92227",
+            "active_user": "2339340",
+            "total_user": 566198910
+        },
+        {
+            "statis_date": "2018-06-26 04:15:00",
+            "new_user": "93618",
+            "active_user": "2367007",
+            "total_user": 566200301
+        },
+        {
+            "statis_date": "2018-06-26 04:20:00",
+            "new_user": "94910",
+            "active_user": "2396640",
+            "total_user": 566201593
+        },
+        {
+            "statis_date": "2018-06-26 04:25:00",
+            "new_user": "96121",
+            "active_user": "2427756",
+            "total_user": 566202804
+        },
+        {
+            "statis_date": "2018-06-26 04:30:00",
+            "new_user": "97662",
+            "active_user": "2462283",
+            "total_user": 566204345
+        },
+        {
+            "statis_date": "2018-06-26 04:35:00",
+            "new_user": "98881",
+            "active_user": "2497829",
+            "total_user": 566205564
+        },
+        {
+            "statis_date": "2018-06-26 04:40:00",
+            "new_user": "100276",
+            "active_user": "2536426",
+            "total_user": 566206959
+        },
+        {
+            "statis_date": "2018-06-26 04:45:00",
+            "new_user": "101631",
+            "active_user": "2578218",
+            "total_user": 566208314
+        },
+        {
+            "statis_date": "2018-06-26 04:50:00",
+            "new_user": "103061",
+            "active_user": "2624136",
+            "total_user": 566209744
+        },
+        {
+            "statis_date": "2018-06-26 04:55:00",
+            "new_user": "104614",
+            "active_user": "2673531",
+            "total_user": 566211297
+        },
+        {
+            "statis_date": "2018-06-26 05:00:00",
+            "new_user": "106295",
+            "active_user": "2733497",
+            "total_user": 566212978
+        },
+        {
+            "statis_date": "2018-06-26 05:05:00",
+            "new_user": "107794",
+            "active_user": "2794739",
+            "total_user": 566214477
+        },
+        {
+            "statis_date": "2018-06-26 05:10:00",
+            "new_user": "109142",
+            "active_user": "2859266",
+            "total_user": 566215825
+        },
+        {
+            "statis_date": "2018-06-26 05:15:00",
+            "new_user": "110814",
+            "active_user": "2928178",
+            "total_user": 566217497
+        },
+        {
+            "statis_date": "2018-06-26 05:20:00",
+            "new_user": "112295",
+            "active_user": "3002341",
+            "total_user": 566218978
+        },
+        {
+            "statis_date": "2018-06-26 05:25:00",
+            "new_user": "114100",
+            "active_user": "3081391",
+            "total_user": 566220783
+        },
+        {
+            "statis_date": "2018-06-26 05:30:00",
+            "new_user": "115802",
+            "active_user": "3170550",
+            "total_user": 566222485
+        },
+        {
+            "statis_date": "2018-06-26 05:35:00",
+            "new_user": "117465",
+            "active_user": "3261347",
+            "total_user": 566224148
+        },
+        {
+            "statis_date": "2018-06-26 05:40:00",
+            "new_user": "119176",
+            "active_user": "3357457",
+            "total_user": 566225859
+        },
+        {
+            "statis_date": "2018-06-26 05:45:00",
+            "new_user": "121209",
+            "active_user": "3458180",
+            "total_user": 566227892
+        },
+        {
+            "statis_date": "2018-06-26 05:50:00",
+            "new_user": "123075",
+            "active_user": "3564563",
+            "total_user": 566229758
+        },
+        {
+            "statis_date": "2018-06-26 05:55:00",
+            "new_user": "125253",
+            "active_user": "3675978",
+            "total_user": 566231936
+        },
+        {
+            "statis_date": "2018-06-26 06:00:00",
+            "new_user": "127524",
+            "active_user": "3806320",
+            "total_user": 566234207
+        },
+        {
+            "statis_date": "2018-06-26 06:05:00",
+            "new_user": "129576",
+            "active_user": "3934556",
+            "total_user": 566236259
+        },
+        {
+            "statis_date": "2018-06-26 06:10:00",
+            "new_user": "131968",
+            "active_user": "4067509",
+            "total_user": 566238651
+        },
+        {
+            "statis_date": "2018-06-26 06:15:00",
+            "new_user": "134256",
+            "active_user": "4202530",
+            "total_user": 566240939
+        },
+        {
+            "statis_date": "2018-06-26 06:20:00",
+            "new_user": "136709",
+            "active_user": "4342328",
+            "total_user": 566243392
+        },
+        {
+            "statis_date": "2018-06-26 06:25:00",
+            "new_user": "138978",
+            "active_user": "4484158",
+            "total_user": 566245661
+        },
+        {
+            "statis_date": "2018-06-26 06:30:00",
+            "new_user": "141505",
+            "active_user": "4637749",
+            "total_user": 566248188
+        },
+        {
+            "statis_date": "2018-06-26 06:35:00",
+            "new_user": "143936",
+            "active_user": "4788308",
+            "total_user": 566250619
+        },
+        {
+            "statis_date": "2018-06-26 06:40:00",
+            "new_user": "146609",
+            "active_user": "4940758",
+            "total_user": 566253292
+        },
+        {
+            "statis_date": "2018-06-26 06:45:00",
+            "new_user": "149131",
+            "active_user": "5093934",
+            "total_user": 566255814
+        },
+        {
+            "statis_date": "2018-06-26 06:50:00",
+            "new_user": "151940",
+            "active_user": "5250906",
+            "total_user": 566258623
+        },
+        {
+            "statis_date": "2018-06-26 06:55:00",
+            "new_user": "154714",
+            "active_user": "5406595",
+            "total_user": 566261397
+        },
+        {
+            "statis_date": "2018-06-26 07:00:00",
+            "new_user": "157774",
+            "active_user": "5574330",
+            "total_user": 566264457
+        },
+        {
+            "statis_date": "2018-06-26 07:05:00",
+            "new_user": "160488",
+            "active_user": "5737768",
+            "total_user": 566267171
+        },
+        {
+            "statis_date": "2018-06-26 07:10:00",
+            "new_user": "163454",
+            "active_user": "5900227",
+            "total_user": 566270137
+        },
+        {
+            "statis_date": "2018-06-26 07:15:00",
+            "new_user": "166283",
+            "active_user": "6060468",
+            "total_user": 566272966
+        },
+        {
+            "statis_date": "2018-06-26 07:20:00",
+            "new_user": "169505",
+            "active_user": "6221730",
+            "total_user": 566276188
+        },
+        {
+            "statis_date": "2018-06-26 07:25:00",
+            "new_user": "172609",
+            "active_user": "6383302",
+            "total_user": 566279292
+        },
+        {
+            "statis_date": "2018-06-26 07:30:00",
+            "new_user": "175857",
+            "active_user": "6552713",
+            "total_user": 566282540
+        },
+        {
+            "statis_date": "2018-06-26 07:35:00",
+            "new_user": "179140",
+            "active_user": "6720168",
+            "total_user": 566285823
+        },
+        {
+            "statis_date": "2018-06-26 07:40:00",
+            "new_user": "182460",
+            "active_user": "6894227",
+            "total_user": 566289143
+        },
+        {
+            "statis_date": "2018-06-26 07:45:00",
+            "new_user": "185768",
+            "active_user": "7075056",
+            "total_user": 566292451
+        },
+        {
+            "statis_date": "2018-06-26 07:50:00",
+            "new_user": "189268",
+            "active_user": "7266288",
+            "total_user": 566295951
+        },
+        {
+            "statis_date": "2018-06-26 07:55:00",
+            "new_user": "192918",
+            "active_user": "7467538",
+            "total_user": 566299601
+        },
+        {
+            "statis_date": "2018-06-26 08:00:00",
+            "new_user": "196695",
+            "active_user": "7683057",
+            "total_user": 566303378
+        },
+        {
+            "statis_date": "2018-06-26 08:05:00",
+            "new_user": "200941",
+            "active_user": "7901865",
+            "total_user": 566307624
+        },
+        {
+            "statis_date": "2018-06-26 08:10:00",
+            "new_user": "204988",
+            "active_user": "8136020",
+            "total_user": 566311671
+        },
+        {
+            "statis_date": "2018-06-26 08:15:00",
+            "new_user": "209653",
+            "active_user": "8391882",
+            "total_user": 566316336
+        },
+        {
+            "statis_date": "2018-06-26 08:20:00",
+            "new_user": "214269",
+            "active_user": "8653849",
+            "total_user": 566320952
+        },
+        {
+            "statis_date": "2018-06-26 08:25:00",
+            "new_user": "219121",
+            "active_user": "8906943",
+            "total_user": 566325804
+        },
+        {
+            "statis_date": "2018-06-26 08:30:00",
+            "new_user": "224402",
+            "active_user": "9111046",
+            "total_user": 566331085
+        },
+        {
+            "statis_date": "2018-06-26 08:35:00",
+            "new_user": "229962",
+            "active_user": "9305085",
+            "total_user": 566336645
+        },
+        {
+            "statis_date": "2018-06-26 08:40:00",
+            "new_user": "235861",
+            "active_user": "9497065",
+            "total_user": 566342544
+        },
+        {
+            "statis_date": "2018-06-26 08:45:00",
+            "new_user": "242191",
+            "active_user": "9685495",
+            "total_user": 566348874
+        },
+        {
+            "statis_date": "2018-06-26 08:50:00",
+            "new_user": "248449",
+            "active_user": "9867861",
+            "total_user": 566355132
+        },
+        {
+            "statis_date": "2018-06-26 08:55:00",
+            "new_user": "254750",
+            "active_user": "10046702",
+            "total_user": 566361433
+        },
+        {
+            "statis_date": "2018-06-26 09:00:00",
+            "new_user": "261680",
+            "active_user": "10239524",
+            "total_user": 566368363
+        },
+        {
+            "statis_date": "2018-06-26 09:05:00",
+            "new_user": "268598",
+            "active_user": "10427085",
+            "total_user": 566375281
+        },
+        {
+            "statis_date": "2018-06-26 09:10:00",
+            "new_user": "275680",
+            "active_user": "10614861",
+            "total_user": 566382363
+        },
+        {
+            "statis_date": "2018-06-26 09:15:00",
+            "new_user": "282828",
+            "active_user": "10811108",
+            "total_user": 566389511
+        },
+        {
+            "statis_date": "2018-06-26 09:20:00",
+            "new_user": "290038",
+            "active_user": "11009200",
+            "total_user": 566396721
+        },
+        {
+            "statis_date": "2018-06-26 09:25:00",
+            "new_user": "296968",
+            "active_user": "11212189",
+            "total_user": 566403651
+        },
+        {
+            "statis_date": "2018-06-26 09:30:00",
+            "new_user": "304343",
+            "active_user": "11424156",
+            "total_user": 566411026
+        },
+        {
+            "statis_date": "2018-06-26 09:35:00",
+            "new_user": "311530",
+            "active_user": "11615295",
+            "total_user": 566418213
+        },
+        {
+            "statis_date": "2018-06-26 09:40:00",
+            "new_user": "319177",
+            "active_user": "11794674",
+            "total_user": 566425860
+        },
+        {
+            "statis_date": "2018-06-26 09:45:00",
+            "new_user": "326683",
+            "active_user": "11967856",
+            "total_user": 566433366
+        },
+        {
+            "statis_date": "2018-06-26 09:50:00",
+            "new_user": "334120",
+            "active_user": "12135020",
+            "total_user": 566440803
+        },
+        {
+            "statis_date": "2018-06-26 09:55:00",
+            "new_user": "342062",
+            "active_user": "12298627",
+            "total_user": 566448745
+        },
+        {
+            "statis_date": "2018-06-26 10:00:00",
+            "new_user": "350063",
+            "active_user": "12468654",
+            "total_user": 566456746
+        },
+        {
+            "statis_date": "2018-06-26 10:05:00",
+            "new_user": "357900",
+            "active_user": "12635963",
+            "total_user": 566464583
+        },
+        {
+            "statis_date": "2018-06-26 10:10:00",
+            "new_user": "365607",
+            "active_user": "12802040",
+            "total_user": 566472290
+        },
+        {
+            "statis_date": "2018-06-26 10:15:00",
+            "new_user": "373805",
+            "active_user": "12960256",
+            "total_user": 566480488
+        },
+        {
+            "statis_date": "2018-06-26 10:20:00",
+            "new_user": "382020",
+            "active_user": "13112968",
+            "total_user": 566488703
+        },
+        {
+            "statis_date": "2018-06-26 10:25:00",
+            "new_user": "390226",
+            "active_user": "13263445",
+            "total_user": 566496909
+        },
+        {
+            "statis_date": "2018-06-26 10:30:00",
+            "new_user": "398560",
+            "active_user": "13414882",
+            "total_user": 566505243
+        },
+        {
+            "statis_date": "2018-06-26 10:35:00",
+            "new_user": "406757",
+            "active_user": "13567585",
+            "total_user": 566513440
+        },
+        {
+            "statis_date": "2018-06-26 10:40:00",
+            "new_user": "414733",
+            "active_user": "13720582",
+            "total_user": 566521416
+        },
+        {
+            "statis_date": "2018-06-26 10:45:00",
+            "new_user": "422779",
+            "active_user": "13881248",
+            "total_user": 566529462
+        },
+        {
+            "statis_date": "2018-06-26 10:50:00",
+            "new_user": "431289",
+            "active_user": "14043372",
+            "total_user": 566537972
+        },
+        {
+            "statis_date": "2018-06-26 10:55:00",
+            "new_user": "439669",
+            "active_user": "14202196",
+            "total_user": 566546352
+        },
+        {
+            "statis_date": "2018-06-26 11:00:00",
+            "new_user": "447922",
+            "active_user": "14348620",
+            "total_user": 566554605
+        },
+        {
+            "statis_date": "2018-06-26 11:05:00",
+            "new_user": "455949",
+            "active_user": "14485043",
+            "total_user": 566562632
+        },
+        {
+            "statis_date": "2018-06-26 11:10:00",
+            "new_user": "463908",
+            "active_user": "14620977",
+            "total_user": 566570591
+        },
+        {
+            "statis_date": "2018-06-26 11:15:00",
+            "new_user": "471821",
+            "active_user": "14753447",
+            "total_user": 566578504
+        },
+        {
+            "statis_date": "2018-06-26 11:20:00",
+            "new_user": "479910",
+            "active_user": "14883100",
+            "total_user": 566586593
+        },
+        {
+            "statis_date": "2018-06-26 11:25:00",
+            "new_user": "487540",
+            "active_user": "15010766",
+            "total_user": 566594223
+        },
+        {
+            "statis_date": "2018-06-26 11:30:00",
+            "new_user": "495329",
+            "active_user": "15145210",
+            "total_user": 566602012
+        },
+        {
+            "statis_date": "2018-06-26 11:35:00",
+            "new_user": "502837",
+            "active_user": "15270776",
+            "total_user": 566609520
+        },
+        {
+            "statis_date": "2018-06-26 11:40:00",
+            "new_user": "510066",
+            "active_user": "15392899",
+            "total_user": 566616749
+        },
+        {
+            "statis_date": "2018-06-26 11:45:00",
+            "new_user": "517353",
+            "active_user": "15512443",
+            "total_user": 566624036
+        },
+        {
+            "statis_date": "2018-06-26 11:50:00",
+            "new_user": "524578",
+            "active_user": "15629989",
+            "total_user": 566631261
+        },
+        {
+            "statis_date": "2018-06-26 11:55:00",
+            "new_user": "531768",
+            "active_user": "15746799",
+            "total_user": 566638451
+        },
+        {
+            "statis_date": "2018-06-26 12:00:00",
+            "new_user": "538670",
+            "active_user": "15858816",
+            "total_user": 566645353
+        },
+        {
+            "statis_date": "2018-06-26 12:05:00",
+            "new_user": "545437",
+            "active_user": "15969711",
+            "total_user": 566652120
+        },
+        {
+            "statis_date": "2018-06-26 12:10:00",
+            "new_user": "551987",
+            "active_user": "16080546",
+            "total_user": 566658670
+        },
+        {
+            "statis_date": "2018-06-26 12:15:00",
+            "new_user": "558633",
+            "active_user": "16191712",
+            "total_user": 566665316
+        },
+        {
+            "statis_date": "2018-06-26 12:20:00",
+            "new_user": "565085",
+            "active_user": "16306563",
+            "total_user": 566671768
+        },
+        {
+            "statis_date": "2018-06-26 12:25:00",
+            "new_user": "571951",
+            "active_user": "16423400",
+            "total_user": 566678634
+        },
+        {
+            "statis_date": "2018-06-26 12:30:00",
+            "new_user": "578707",
+            "active_user": "16536093",
+            "total_user": 566685390
+        },
+        {
+            "statis_date": "2018-06-26 12:35:00",
+            "new_user": "585172",
+            "active_user": "16642889",
+            "total_user": 566691855
+        },
+        {
+            "statis_date": "2018-06-26 12:40:00",
+            "new_user": "591953",
+            "active_user": "16747338",
+            "total_user": 566698636
+        },
+        {
+            "statis_date": "2018-06-26 12:45:00",
+            "new_user": "598542",
+            "active_user": "16849840",
+            "total_user": 566705225
+        },
+        {
+            "statis_date": "2018-06-26 12:50:00",
+            "new_user": "605548",
+            "active_user": "16950997",
+            "total_user": 566712231
+        },
+        {
+            "statis_date": "2018-06-26 12:55:00",
+            "new_user": "612161",
+            "active_user": "17049797",
+            "total_user": 566718844
+        },
+        {
+            "statis_date": "2018-06-26 13:00:00",
+            "new_user": "619459",
+            "active_user": "17148474",
+            "total_user": 566726142
+        },
+        {
+            "statis_date": "2018-06-26 13:05:00",
+            "new_user": "627323",
+            "active_user": "17247123",
+            "total_user": 566734006
+        },
+        {
+            "statis_date": "2018-06-26 13:10:00",
+            "new_user": "634627",
+            "active_user": "17345588",
+            "total_user": 566741310
+        },
+        {
+            "statis_date": "2018-06-26 13:15:00",
+            "new_user": "642316",
+            "active_user": "17442904",
+            "total_user": 566748999
+        },
+        {
+            "statis_date": "2018-06-26 13:20:00",
+            "new_user": "648995",
+            "active_user": "17535492",
+            "total_user": 566755678
+        },
+        {
+            "statis_date": "2018-06-26 13:25:00",
+            "new_user": "655751",
+            "active_user": "17627907",
+            "total_user": 566762434
+        },
+        {
+            "statis_date": "2018-06-26 13:30:00",
+            "new_user": "662315",
+            "active_user": "17719654",
+            "total_user": 566768998
+        },
+        {
+            "statis_date": "2018-06-26 13:35:00",
+            "new_user": "668805",
+            "active_user": "17809509",
+            "total_user": 566775488
+        },
+        {
+            "statis_date": "2018-06-26 13:40:00",
+            "new_user": "675161",
+            "active_user": "17898652",
+            "total_user": 566781844
+        },
+        {
+            "statis_date": "2018-06-26 13:45:00",
+            "new_user": "681810",
+            "active_user": "17988076",
+            "total_user": 566788493
+        },
+        {
+            "statis_date": "2018-06-26 13:50:00",
+            "new_user": "688370",
+            "active_user": "18076431",
+            "total_user": 566795053
+        },
+        {
+            "statis_date": "2018-06-26 13:55:00",
+            "new_user": "694794",
+            "active_user": "18164967",
+            "total_user": 566801477
+        },
+        {
+            "statis_date": "2018-06-26 14:00:00",
+            "new_user": "701728",
+            "active_user": "18257676",
+            "total_user": 566808411
+        },
+        {
+            "statis_date": "2018-06-26 14:05:00",
+            "new_user": "708408",
+            "active_user": "18353274",
+            "total_user": 566815091
+        },
+        {
+            "statis_date": "2018-06-26 14:10:00",
+            "new_user": "715445",
+            "active_user": "18449570",
+            "total_user": 566822128
+        },
+        {
+            "statis_date": "2018-06-26 14:15:00",
+            "new_user": "722259",
+            "active_user": "18548351",
+            "total_user": 566828942
+        },
+        {
+            "statis_date": "2018-06-26 14:20:00",
+            "new_user": "729465",
+            "active_user": "18651722",
+            "total_user": 566836148
+        },
+        {
+            "statis_date": "2018-06-26 14:25:00",
+            "new_user": "736740",
+            "active_user": "18752119",
+            "total_user": 566843423
+        },
+        {
+            "statis_date": "2018-06-26 14:30:00",
+            "new_user": "744087",
+            "active_user": "18846132",
+            "total_user": 566850770
+        },
+        {
+            "statis_date": "2018-06-26 14:35:00",
+            "new_user": "751540",
+            "active_user": "18938372",
+            "total_user": 566858223
+        },
+        {
+            "statis_date": "2018-06-26 14:40:00",
+            "new_user": "759283",
+            "active_user": "19031189",
+            "total_user": 566865966
+        },
+        {
+            "statis_date": "2018-06-26 14:45:00",
+            "new_user": "767023",
+            "active_user": "19128187",
+            "total_user": 566873706
+        },
+        {
+            "statis_date": "2018-06-26 14:50:00",
+            "new_user": "774669",
+            "active_user": "19228811",
+            "total_user": 566881352
+        },
+        {
+            "statis_date": "2018-06-26 14:55:00",
+            "new_user": "782025",
+            "active_user": "19328262",
+            "total_user": 566888708
+        },
+        {
+            "statis_date": "2018-06-26 15:00:00",
+            "new_user": "789955",
+            "active_user": "19429768",
+            "total_user": 566896638
+        },
+        {
+            "statis_date": "2018-06-26 15:05:00",
+            "new_user": "797749",
+            "active_user": "19528511",
+            "total_user": 566904432
+        },
+        {
+            "statis_date": "2018-06-26 15:10:00",
+            "new_user": "805723",
+            "active_user": "19625089",
+            "total_user": 566912406
+        },
+        {
+            "statis_date": "2018-06-26 15:15:00",
+            "new_user": "813506",
+            "active_user": "19718928",
+            "total_user": 566920189
+        },
+        {
+            "statis_date": "2018-06-26 15:20:00",
+            "new_user": "821549",
+            "active_user": "19811898",
+            "total_user": 566928232
+        },
+        {
+            "statis_date": "2018-06-26 15:25:00",
+            "new_user": "829424",
+            "active_user": "19906723",
+            "total_user": 566936107
+        },
+        {
+            "statis_date": "2018-06-26 15:30:00",
+            "new_user": "837255",
+            "active_user": "20003846",
+            "total_user": 566943938
+        },
+        {
+            "statis_date": "2018-06-26 15:35:00",
+            "new_user": "845714",
+            "active_user": "20103722",
+            "total_user": 566952397
+        },
+        {
+            "statis_date": "2018-06-26 15:40:00",
+            "new_user": "853947",
+            "active_user": "20203897",
+            "total_user": 566960630
+        },
+        {
+            "statis_date": "2018-06-26 15:45:00",
+            "new_user": "861865",
+            "active_user": "20303983",
+            "total_user": 566968548
+        },
+        {
+            "statis_date": "2018-06-26 15:50:00",
+            "new_user": "870134",
+            "active_user": "20400599",
+            "total_user": 566976817
+        },
+        {
+            "statis_date": "2018-06-26 15:55:00",
+            "new_user": "878298",
+            "active_user": "20497222",
+            "total_user": 566984981
+        },
+        {
+            "statis_date": "2018-06-26 16:00:00",
+            "new_user": "886088",
+            "active_user": "20595815",
+            "total_user": 566992771
+        },
+        {
+            "statis_date": "2018-06-26 16:05:00",
+            "new_user": "894010",
+            "active_user": "20695028",
+            "total_user": 567000693
+        },
+        {
+            "statis_date": "2018-06-26 16:10:00",
+            "new_user": "901799",
+            "active_user": "20793290",
+            "total_user": 567008482
+        },
+        {
+            "statis_date": "2018-06-26 16:15:00",
+            "new_user": "909524",
+            "active_user": "20890542",
+            "total_user": 567016207
+        },
+        {
+            "statis_date": "2018-06-26 16:20:00",
+            "new_user": "918837",
+            "active_user": "20991252",
+            "total_user": 567025520
+        },
+        {
+            "statis_date": "2018-06-26 16:25:00",
+            "new_user": "928766",
+            "active_user": "21094662",
+            "total_user": 567035449
+        },
+        {
+            "statis_date": "2018-06-26 16:30:00",
+            "new_user": "937970",
+            "active_user": "21195914",
+            "total_user": 567044653
+        },
+        {
+            "statis_date": "2018-06-26 16:35:00",
+            "new_user": "947465",
+            "active_user": "21298382",
+            "total_user": 567054148
+        },
+        {
+            "statis_date": "2018-06-26 16:40:00",
+            "new_user": "957204",
+            "active_user": "21402668",
+            "total_user": 567063887
+        },
+        {
+            "statis_date": "2018-06-26 16:45:00",
+            "new_user": "967179",
+            "active_user": "21502443",
+            "total_user": 567073862
+        },
+        {
+            "statis_date": "2018-06-26 16:50:00",
+            "new_user": "976822",
+            "active_user": "21599861",
+            "total_user": 567083505
+        },
+        {
+            "statis_date": "2018-06-26 16:55:00",
+            "new_user": "987115",
+            "active_user": "21697071",
+            "total_user": 567093798
+        },
+        {
+            "statis_date": "2018-06-26 17:00:00",
+            "new_user": "996407",
+            "active_user": "21792101",
+            "total_user": 567103090
+        },
+        {
+            "statis_date": "2018-06-26 17:05:00",
+            "new_user": "1004663",
+            "active_user": "21884650",
+            "total_user": 567111346
+        },
+        {
+            "statis_date": "2018-06-26 17:10:00",
+            "new_user": "1012659",
+            "active_user": "21977828",
+            "total_user": 567119342
+        },
+        {
+            "statis_date": "2018-06-26 17:15:00",
+            "new_user": "1020838",
+            "active_user": "22071016",
+            "total_user": 567127521
+        },
+        {
+            "statis_date": "2018-06-26 17:20:00",
+            "new_user": "1029077",
+            "active_user": "22162832",
+            "total_user": 567135760
+        },
+        {
+            "statis_date": "2018-06-26 17:25:00",
+            "new_user": "1037300",
+            "active_user": "22252653",
+            "total_user": 567143983
+        },
+        {
+            "statis_date": "2018-06-26 17:30:00",
+            "new_user": "1045444",
+            "active_user": "22341889",
+            "total_user": 567152127
+        },
+        {
+            "statis_date": "2018-06-26 17:35:00",
+            "new_user": "1053919",
+            "active_user": "22432310",
+            "total_user": 567160602
+        },
+        {
+            "statis_date": "2018-06-26 17:40:00",
+            "new_user": "1062883",
+            "active_user": "22522427",
+            "total_user": 567169566
+        },
+        {
+            "statis_date": "2018-06-26 17:45:00",
+            "new_user": "1071949",
+            "active_user": "22612562",
+            "total_user": 567178632
+        },
+        {
+            "statis_date": "2018-06-26 17:50:00",
+            "new_user": "1080854",
+            "active_user": "22702412",
+            "total_user": 567187537
+        },
+        {
+            "statis_date": "2018-06-26 17:55:00",
+            "new_user": "1089807",
+            "active_user": "22791671",
+            "total_user": 567196490
+        },
+        {
+            "statis_date": "2018-06-26 18:00:00",
+            "new_user": "1099658",
+            "active_user": "22883168",
+            "total_user": 567206341
+        },
+        {
+            "statis_date": "2018-06-26 18:05:00",
+            "new_user": "1107557",
+            "active_user": "22974290",
+            "total_user": 567214240
+        },
+        {
+            "statis_date": "2018-06-26 18:10:00",
+            "new_user": "1115193",
+            "active_user": "23064851",
+            "total_user": 567221876
+        },
+        {
+            "statis_date": "2018-06-26 18:15:00",
+            "new_user": "1123209",
+            "active_user": "23154878",
+            "total_user": 567229892
+        },
+        {
+            "statis_date": "2018-06-26 18:20:00",
+            "new_user": "1132440",
+            "active_user": "23243237",
+            "total_user": 567239123
+        },
+        {
+            "statis_date": "2018-06-26 18:25:00",
+            "new_user": "1141522",
+            "active_user": "23329770",
+            "total_user": 567248205
+        },
+        {
+            "statis_date": "2018-06-26 18:30:00",
+            "new_user": "1150242",
+            "active_user": "23413854",
+            "total_user": 567256925
+        },
+        {
+            "statis_date": "2018-06-26 18:35:00",
+            "new_user": "1158515",
+            "active_user": "23496106",
+            "total_user": 567265198
+        },
+        {
+            "statis_date": "2018-06-26 18:40:00",
+            "new_user": "1165254",
+            "active_user": "23575941",
+            "total_user": 567271937
+        },
+        {
+            "statis_date": "2018-06-26 18:45:00",
+            "new_user": "1171763",
+            "active_user": "23654832",
+            "total_user": 567278446
+        },
+        {
+            "statis_date": "2018-06-26 18:50:00",
+            "new_user": "1178668",
+            "active_user": "23732903",
+            "total_user": 567285351
+        },
+        {
+            "statis_date": "2018-06-26 18:55:00",
+            "new_user": "1185237",
+            "active_user": "23810109",
+            "total_user": 567291920
+        },
+        {
+            "statis_date": "2018-06-26 19:00:00",
+            "new_user": "1191670",
+            "active_user": "23892423",
+            "total_user": 567298353
+        },
+        {
+            "statis_date": "2018-06-26 19:05:00",
+            "new_user": "1198144",
+            "active_user": "23975683",
+            "total_user": 567304827
+        },
+        {
+            "statis_date": "2018-06-26 19:10:00",
+            "new_user": "1204336",
+            "active_user": "24057998",
+            "total_user": 567311019
+        },
+        {
+            "statis_date": "2018-06-26 19:15:00",
+            "new_user": "1210517",
+            "active_user": "24141989",
+            "total_user": 567317200
+        },
+        {
+            "statis_date": "2018-06-26 19:20:00",
+            "new_user": "1217331",
+            "active_user": "24223163",
+            "total_user": 567324014
+        },
+        {
+            "statis_date": "2018-06-26 19:25:00",
+            "new_user": "1223776",
+            "active_user": "24299823",
+            "total_user": 567330459
+        },
+        {
+            "statis_date": "2018-06-26 19:30:00",
+            "new_user": "1230590",
+            "active_user": "24376188",
+            "total_user": 567337273
+        },
+        {
+            "statis_date": "2018-06-26 19:35:00",
+            "new_user": "1237141",
+            "active_user": "24450911",
+            "total_user": 567343824
+        },
+        {
+            "statis_date": "2018-06-26 19:40:00",
+            "new_user": "1243710",
+            "active_user": "24525458",
+            "total_user": 567350393
+        },
+        {
+            "statis_date": "2018-06-26 19:45:00",
+            "new_user": "1250185",
+            "active_user": "24598491",
+            "total_user": 567356868
+        },
+        {
+            "statis_date": "2018-06-26 19:50:00",
+            "new_user": "1256790",
+            "active_user": "24674636",
+            "total_user": 567363473
+        },
+        {
+            "statis_date": "2018-06-26 19:55:00",
+            "new_user": "1263416",
+            "active_user": "24750022",
+            "total_user": 567370099
+        },
+        {
+            "statis_date": "2018-06-26 20:00:00",
+            "new_user": "1270018",
+            "active_user": "24826023",
+            "total_user": 567376701
+        },
+        {
+            "statis_date": "2018-06-26 20:05:00",
+            "new_user": "1276972",
+            "active_user": "24901985",
+            "total_user": 567383655
+        },
+        {
+            "statis_date": "2018-06-26 20:10:00",
+            "new_user": "1283687",
+            "active_user": "24977765",
+            "total_user": 567390370
+        },
+        {
+            "statis_date": "2018-06-26 20:15:00",
+            "new_user": "1289972",
+            "active_user": "25053771",
+            "total_user": 567396655
+        },
+        {
+            "statis_date": "2018-06-26 20:20:00",
+            "new_user": "1296557",
+            "active_user": "25131425",
+            "total_user": 567403240
+        },
+        {
+            "statis_date": "2018-06-26 20:25:00",
+            "new_user": "1303320",
+            "active_user": "25209048",
+            "total_user": 567410003
+        },
+        {
+            "statis_date": "2018-06-26 20:30:00",
+            "new_user": "1310102",
+            "active_user": "25287389",
+            "total_user": 567416785
+        },
+        {
+            "statis_date": "2018-06-26 20:35:00",
+            "new_user": "1316979",
+            "active_user": "25368065",
+            "total_user": 567423662
+        },
+        {
+            "statis_date": "2018-06-26 20:40:00",
+            "new_user": "1323563",
+            "active_user": "25450383",
+            "total_user": 567430246
+        },
+        {
+            "statis_date": "2018-06-26 20:45:00",
+            "new_user": "1329781",
+            "active_user": "25529480",
+            "total_user": 567436464
+        },
+        {
+            "statis_date": "2018-06-26 20:50:00",
+            "new_user": "1336306",
+            "active_user": "25607170",
+            "total_user": 567442989
+        },
+        {
+            "statis_date": "2018-06-26 20:55:00",
+            "new_user": "1342789",
+            "active_user": "25686083",
+            "total_user": 567449472
+        },
+        {
+            "statis_date": "2018-06-26 21:00:00",
+            "new_user": "1349551",
+            "active_user": "25769312",
+            "total_user": 567456234
+        },
+        {
+            "statis_date": "2018-06-26 21:05:00",
+            "new_user": "1355929",
+            "active_user": "25852830",
+            "total_user": 567462612
+        },
+        {
+            "statis_date": "2018-06-26 21:10:00",
+            "new_user": "1362322",
+            "active_user": "25933192",
+            "total_user": 567469005
+        },
+        {
+            "statis_date": "2018-06-26 21:15:00",
+            "new_user": "1368801",
+            "active_user": "26013154",
+            "total_user": 567475484
+        },
+        {
+            "statis_date": "2018-06-26 21:20:00",
+            "new_user": "1375327",
+            "active_user": "26092670",
+            "total_user": 567482010
+        },
+        {
+            "statis_date": "2018-06-26 21:25:00",
+            "new_user": "1381703",
+            "active_user": "26172520",
+            "total_user": 567488386
+        },
+        {
+            "statis_date": "2018-06-26 21:30:00",
+            "new_user": "1388194",
+            "active_user": "26261600",
+            "total_user": 567494877
+        },
+        {
+            "statis_date": "2018-06-26 21:35:00",
+            "new_user": "1394685",
+            "active_user": "26346728",
+            "total_user": 567501368
+        },
+        {
+            "statis_date": "2018-06-26 21:40:00",
+            "new_user": "1401162",
+            "active_user": "26432830",
+            "total_user": 567507845
+        },
+        {
+            "statis_date": "2018-06-26 21:45:00",
+            "new_user": "1407726",
+            "active_user": "26520418",
+            "total_user": 567514409
+        },
+        {
+            "statis_date": "2018-06-26 21:50:00",
+            "new_user": "1414141",
+            "active_user": "26605083",
+            "total_user": 567520824
+        },
+        {
+            "statis_date": "2018-06-26 21:55:00",
+            "new_user": "1420327",
+            "active_user": "26685428",
+            "total_user": 567527010
+        },
+        {
+            "statis_date": "2018-06-26 22:00:00",
+            "new_user": "1426379",
+            "active_user": "26762286",
+            "total_user": 567533062
+        },
+        {
+            "statis_date": "2018-06-26 22:05:00",
+            "new_user": "1432009",
+            "active_user": "26837050",
+            "total_user": 567538692
+        },
+        {
+            "statis_date": "2018-06-26 22:10:00",
+            "new_user": "1437775",
+            "active_user": "26911014",
+            "total_user": 567544458
+        },
+        {
+            "statis_date": "2018-06-26 22:15:00",
+            "new_user": "1443388",
+            "active_user": "26984546",
+            "total_user": 567550071
+        },
+        {
+            "statis_date": "2018-06-26 22:20:00",
+            "new_user": "1448931",
+            "active_user": "27056958",
+            "total_user": 567555614
+        },
+        {
+            "statis_date": "2018-06-26 22:25:00",
+            "new_user": "1454284",
+            "active_user": "27127240",
+            "total_user": 567560967
+        },
+        {
+            "statis_date": "2018-06-26 22:30:00",
+            "new_user": "1459691",
+            "active_user": "27197348",
+            "total_user": 567566374
+        },
+        {
+            "statis_date": "2018-06-26 22:35:00",
+            "new_user": "1464820",
+            "active_user": "27265588",
+            "total_user": 567571503
+        },
+        {
+            "statis_date": "2018-06-26 22:40:00",
+            "new_user": "1469895",
+            "active_user": "27331873",
+            "total_user": 567576578
+        },
+        {
+            "statis_date": "2018-06-26 22:45:00",
+            "new_user": "1475100",
+            "active_user": "27397728",
+            "total_user": 567581783
+        },
+        {
+            "statis_date": "2018-06-26 22:50:00",
+            "new_user": "1480136",
+            "active_user": "27465905",
+            "total_user": 567586819
+        },
+        {
+            "statis_date": "2018-06-26 22:55:00",
+            "new_user": "1485079",
+            "active_user": "27530749",
+            "total_user": 567591762
+        },
+        {
+            "statis_date": "2018-06-26 23:00:00",
+            "new_user": "1489904",
+            "active_user": "27595033",
+            "total_user": 567596587
+        },
+        {
+            "statis_date": "2018-06-26 23:05:00",
+            "new_user": "1494412",
+            "active_user": "27653719",
+            "total_user": 567601095
+        },
+        {
+            "statis_date": "2018-06-26 23:10:00",
+            "new_user": "1498750",
+            "active_user": "27709318",
+            "total_user": 567605433
+        },
+        {
+            "statis_date": "2018-06-26 23:15:00",
+            "new_user": "1502881",
+            "active_user": "27762970",
+            "total_user": 567609564
+        },
+        {
+            "statis_date": "2018-06-26 23:20:00",
+            "new_user": "1506938",
+            "active_user": "27814239",
+            "total_user": 567613621
+        },
+        {
+            "statis_date": "2018-06-26 23:25:00",
+            "new_user": "1510884",
+            "active_user": "27863671",
+            "total_user": 567617567
+        },
+        {
+            "statis_date": "2018-06-26 23:30:00",
+            "new_user": "1514734",
+            "active_user": "27910655",
+            "total_user": 567621417
+        },
+        {
+            "statis_date": "2018-06-26 23:35:00",
+            "new_user": "1518403",
+            "active_user": "27955518",
+            "total_user": 567625086
+        },
+        {
+            "statis_date": "2018-06-26 23:40:00",
+            "new_user": "1521826",
+            "active_user": "27998479",
+            "total_user": 567628509
+        },
+        {
+            "statis_date": "2018-06-26 23:45:00",
+            "new_user": "1525225",
+            "active_user": "28039698",
+            "total_user": 567631908
+        },
+        {
+            "statis_date": "2018-06-26 23:50:00",
+            "new_user": "1528459",
+            "active_user": "28081585",
+            "total_user": 567635142
+        },
+        {
+            "statis_date": "2018-06-26 23:55:00",
+            "new_user": "1531669",
+            "active_user": "28124094",
+            "total_user": 567638352
+        }
+    ]
+}

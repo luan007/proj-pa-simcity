@@ -219,19 +219,19 @@ function initVfx() {
             }
             cv.bars.pop();
 
-            cv.bars.push();
-            cv.bars.translate(550, 8);
-            cv.bars.textSize(15);
-            if (eased_scores[config.view] < 0) {
-                cv.bars.fill(255, 50, 30, 200);
-            } else {
-                cv.bars.fill(20, 150, 255, 200);
-            }
-            cv.bars.textAlign(LEFT, CENTER);
-            cv.bars.text(explain(config.view), 0, (1080 - 960) / 2 - 28);
-            cv.bars.textSize(35);
-            cv.bars.text((eased_scores[config.view].toFixed(3) * 100).toFixed(1) + "%", 0, (1080 - 960) / 2 + 5);
-            cv.bars.pop();
+            // cv.bars.push();
+            // cv.bars.translate(550, 8);
+            // cv.bars.textSize(15);
+            // if (eased_scores[config.view] < 0) {
+            //     cv.bars.fill(255, 50, 30, 200);
+            // } else {
+            //     cv.bars.fill(20, 150, 255, 200);
+            // }
+            // cv.bars.textAlign(LEFT, CENTER);
+            // cv.bars.text(explain(config.view), 0, (1080 - 960) / 2 - 28);
+            // cv.bars.textSize(35);
+            // cv.bars.text((eased_scores[config.view].toFixed(3) * 100).toFixed(1) + "%", 0, (1080 - 960) / 2 + 5);
+            // cv.bars.pop();
 
 
             config.super_dilute = toggle("宏观\n模式", 750, 3, 60, 70, config.super_dilute);

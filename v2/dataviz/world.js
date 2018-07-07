@@ -279,7 +279,7 @@ class Chunk {
         this.val2 = 0;
     }
     update(t) {
-        this.group.position.x = (this.position[0] - 1920 / 2);
+        this.group.position.x = -(this.position[0] - 1920 / 2);
         this.group.position.y = (this.position[1] - 960 / 2);
         chunkVerts.vertices[this.index].x = this.group.position.x;
         chunkVerts.vertices[this.index].y = this.group.position.y;

@@ -11,7 +11,8 @@ var func = {
     0: "热区",
     1: "增强+",
     2: "决策辅助",
-    3: "宏观模式",
+    // 3: "宏观模式",
+    3: "全视通模式",
 }
 
 class TouchSelection {
@@ -27,7 +28,6 @@ class TouchSelection {
         this.score = 0;
         this.selected = [];
         this.leapSelectionMode = 0;
-
         this.hand = undefined;
         if (!mode) {
             this._mode = 0;
@@ -47,7 +47,7 @@ class TouchSelection {
         this.breathe = (sin(t * this.breathe_speed + this.seed) * 0.5 + 0.5) * 0.3 + 1;
         this.activeEase = ease(this.activeEase, this.active ? 1 : 0, 0.2);
         if (this.activeEase < 0.01) return;
-        if (this.leapSelectionMode) {
+        if (this.leapSelectionMode && this.hand[9] >= 0) {
             if (this.prevSelectionMode == 0) {
                 this.savedPosition = [this.position[0], this.position[1]]
             }
@@ -129,7 +129,8 @@ class TouchSelection {
                             config.warning_threshold = 40;
                         }
                     } else if (i == 3) {
-                        config.super_dilute = !config.super_dilute;
+                        config.qst = !config.qst;
+                        // config.super_dilute = !config.super_dilute;
                     }
                 }
                 if (i == 2) {
@@ -139,10 +140,15 @@ class TouchSelection {
                         txt += "\n(已关闭)"
                     }
                 }
+                // if (i == 3) {
+                //     if (config.super_dilute) {
+                //         txt += "\n! 已启动 !"
+                //     }
+                // }
                 if (i == 3) {
-                    if (config.super_dilute) {
+                    if (config.qst) {
                         txt += "\n! 已启动 !"
-                    } 
+                    }
                 }
                 cv.overlay.noFill();
                 cv.overlay.strokeWeight(20);
@@ -165,7 +171,8 @@ class TouchSelection {
             this.prevSelectionMode = this.leapSelectionMode;
             cv.overlay.pop();
             return;
-        } else if (this.prevSelectionMode == 1) {
+        }
+        else if (this.prevSelectionMode == 1) {
             cv.overlay.blendMode(ADD);
             cv.overlay.push();
             cv.overlay.noFill();

@@ -64,6 +64,7 @@ function explain(t) {
 }
 
 var config = {
+    qst: false,
     enableLeap: true,
     simulatorFps: 15,
     affector_range: 10,
@@ -135,13 +136,22 @@ setInterval(() => {
     });
 }, 1000);
 
+
+setInterval(() => {
+    socket.emit("selections", {
+        selectors: leapSelectors
+    });
+}, 50);
+
 var hands = [];
 var hands_pos = [];
 var clickState = 0;
 var last_click = [];
 var last_t = [];
+
+var hand_id = {};
 if (config.enableLeap) {
-    Leap.loop((frame) => {
+    var ctller = Leap.loop({enableGestures: true}, (frame) => {
         hands = frame.hands;
         if (!config.enableLeap) { return; }
     });
@@ -162,13 +172,13 @@ function updateLeapHandPos() {
                 1 - Math.min(3, Math.max(0, hands[i].fingers[1].tipPosition[1] / 200)) / 3,
                 0
             ])
+            hands_pos[i][9] = hands[i].type == 'right' ? 1 : 0;
             hands_pos[i][8] = 0;
-
-
+            
             var ptcur = hands_pos[i][7] - hands_pos[i][2];
             last_t[i] = last_t[i] || 0;
             last_click[i] = last_click[i] || Date.now();
-            if (last_t[i] && Math.abs((ptcur - last_t[i]) * 500) > 5) {
+            if (hands[i].timeVisible > 2 && Date.now() - last_click[i] > 500 && last_t[i] && Math.abs((ptcur - last_t[i]) * 500) > 5) {
                 // console.log((ptcur - last_t[i]));
                 if (Date.now() - last_click[i] > 300) {
                     last_click[i] = Date.now();
@@ -176,6 +186,10 @@ function updateLeapHandPos() {
                 }
             }
             last_t[i] = ptcur;
+            // if(hand_id[hands[i].id] == 1) {
+            //     hands_pos[i][8] = 1;
+            //     hand_id[hands[i].id] = 0;
+            // }
 
         }
     }

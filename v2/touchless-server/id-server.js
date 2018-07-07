@@ -10,6 +10,9 @@ io.on('connection', function (socket) {
     socket.on("pack", function (data) {
         display.emit("pack", data);
     });
+    socket.on("selections", function (data) {
+        display.emit("selections", data);
+    });
 });
 
 
