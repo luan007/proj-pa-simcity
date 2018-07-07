@@ -286,7 +286,7 @@ function drawCharts(t) {
                 noStroke();
                 textSize(18);
                 textAlign(LEFT, CENTER);
-                text("[ 贡献来源 ]", p1x, offset + 50);
+                text("[ 正面因子 ]", p1x, offset + 50);
                 offset += 40;
             } else if (keys[i].v < 0 && partitions != 1) {
                 partitions = 1;
@@ -294,7 +294,7 @@ function drawCharts(t) {
                 noStroke();
                 textSize(18);
                 textAlign(LEFT, CENTER);
-                text("[ 问题来源 ]", p1x, offset + 50);
+                text("[ 负面因子 ]", p1x, offset + 50);
                 offset += 40;
             }
 

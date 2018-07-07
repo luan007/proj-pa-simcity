@@ -81,7 +81,8 @@ var config = {
     heatMapOpacityCap: 1,
     heatMode: 0, //0 = normal, 1 = high contrast,
     touchless_timeout: 5000,
-    lang: 'cn'
+    lang: 'cn',
+    upscreen: undefined
 };
 
 var condensed = {
@@ -136,10 +137,30 @@ setInterval(() => {
     });
 }, 1000);
 
+setInterval(() => {
+    socket.emit("config", config);
+}, 1000);
 
 setInterval(() => {
     socket.emit("selections", {
-        selectors: leapSelectors
+        selectors: leapSelectors.map(v => {
+            if (v.lensMode == 0 && v.active) {
+                return v.selected.map(t => {
+                    return t.id
+                })
+            } else {
+                return []
+            }
+        }),
+        linked: leapSelectors.map(v => {
+            if (v.lensMode == 1) {
+                return v.linked.map(t => {
+                    return t.id
+                })
+            } else {
+                return []
+            }
+        })
     });
 }, 50);
 
@@ -151,7 +172,7 @@ var last_t = [];
 
 var hand_id = {};
 if (config.enableLeap) {
-    var ctller = Leap.loop({enableGestures: true}, (frame) => {
+    var ctller = Leap.loop({ enableGestures: true }, (frame) => {
         hands = frame.hands;
         if (!config.enableLeap) { return; }
     });
@@ -174,7 +195,6 @@ function updateLeapHandPos() {
             ])
             hands_pos[i][9] = hands[i].type == 'right' ? 1 : 0;
             hands_pos[i][8] = 0;
-            
             var ptcur = hands_pos[i][7] - hands_pos[i][2];
             last_t[i] = last_t[i] || 0;
             last_click[i] = last_click[i] || Date.now();

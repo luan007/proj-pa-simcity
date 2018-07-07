@@ -1,0 +1,35 @@
+<html>
+
+<head>
+    <style>
+        #view {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+        }
+
+        body {
+            opacity: 0.5;
+            transition: opacity 1 ease;
+        }
+    </style>
+</head>
+
+<body>
+    <script src="http://localhost:8988/socket.io/socket.io.js"></script>
+    <script>
+        var socket = io.connect('http://localhost:8988/config');
+        socket.on("config", (data) => {
+            if (data.upscreen && view.src != data.upscreen) {
+                view.src = data.upscreen;
+            }
+            document.body.style.opacity = data.upscreen ? 1 : 0;
+        });
+    </script>
+    <webview partition='persist:pa' id='view' src="http://gcv-core-stg.pingan.com.cn:10002/index/home.html#type1" preload='injector.js'
+        autosize></webview>
+</body>
+
+</html>

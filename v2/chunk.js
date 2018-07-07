@@ -15,6 +15,36 @@ var func = {
     3: "全视通模式",
 }
 
+var func_mapper = {
+    ed: {
+        "沙盘\n模拟": undefined,
+        "全视通\n教育": "http://gcv-core-stg.pingan.com.cn:10002/index/home.html#type5",
+    },
+    ec: {
+        "沙盘\n模拟": undefined,
+        "全视通\n经济": "http://gcv-core-stg.pingan.com.cn:10002/index/home.html#type2",
+        "全视通\n政务": "http://gcv-core-stg.pingan.com.cn:10002/index/home.html#type10",
+        "全视通\n应急": "http://gcv-core-stg.pingan.com.cn:10002/index/home.html#type11",
+        "全视通\n舆情": "http://gcv-core-stg.pingan.com.cn:10002/index/home.html#type12",
+    },
+    en: {
+        "沙盘\n模拟": undefined, "全视通\n环保": "http://gcv-core-stg.pingan.com.cn:10002/index/home.html#type7"
+    },
+    m: {
+        "沙盘\n模拟": undefined, "全视通\n医疗": "http://gcv-core-stg.pingan.com.cn:10002/index/home.html#type4"
+    },
+    h: {
+        "沙盘\n模拟": undefined, "全视通\n房产": "http://gcv-core-stg.pingan.com.cn:10002/index/home.html#type6"
+    },
+    j: {
+        "沙盘\n模拟": undefined, "全视通\n人口": "http://gcv-core-stg.pingan.com.cn:10002/index/home.html#type3",
+        "沙盘\n模拟": undefined, "全视通\n惠民": "http://gcv-core-stg.pingan.com.cn:10002/index/home.html#type9"
+    },
+    t: {
+        "沙盘\n模拟": undefined, "全视通\n交通": "http://gcv-core-stg.pingan.com.cn:10002/index/home.html#type8"
+    }
+}
+
 class TouchSelection {
     constructor(mode) {
         this.position = [0, 0];
@@ -44,10 +74,11 @@ class TouchSelection {
     }
 
     render(t) {
+        config.showHeatHint = true;
         this.breathe = (sin(t * this.breathe_speed + this.seed) * 0.5 + 0.5) * 0.3 + 1;
         this.activeEase = ease(this.activeEase, this.active ? 1 : 0, 0.2);
         if (this.activeEase < 0.01) return;
-        if (this.leapSelectionMode && this.hand[9] >= 0) {
+        if (this.leapSelectionMode && this.hand[9] == 1) {
             if (this.prevSelectionMode == 0) {
                 this.savedPosition = [this.position[0], this.position[1]]
             }
@@ -76,6 +107,11 @@ class TouchSelection {
                 if (sel && this.hand[8]) {
                     //clicked
                     config.view = i;
+                    if (func_mapper[config.view]) {
+                        var ks = Object.keys(func_mapper[config.view]);
+                        var ksel = config.upscreen ? ks[1] : ks[0];
+                        config.upscreen = func_mapper[config.view][ksel];
+                    }
                 }
                 cv.overlay.noFill();
                 cv.overlay.strokeWeight(70);
@@ -103,19 +139,19 @@ class TouchSelection {
                     //clicked
                     // config.view = i;
                     if (i == 0) {
-                        config.showHeatHint = !config.showHeatHint;
-                        if (config.showHeatHint) {
-                            config.heatMode = 1;
-                        } else if (!config.magnification == 0.5) {
-                            config.heatMode = 0;
-                        }
+                        // if (config.showHeatHint) {
+                        config.heatMode = config.heatMode == 0 ? 1 : 0;
+                        // } else if (!config.magnification == 0.5) {
+                        // config.heatMode = 0;
+                        // }
                     } else if (i == 1) {
+                        // config.showHeatHint = true;
                         config.magnification = config.magnification == 0.5 ? 0.1 : 0.5;
-                        if (!config.showHeatHint) {
-                            config.heatMode = 0;
-                        } else if (config.magnification == 0.1) {
-                            config.heatMode = 1;
-                        }
+                        // if (!config.showHeatHint) {
+                        // config.heatMode = 0;
+                        // } else if (config.magnification == 0.1) {
+                        // config.heatMode = 1;
+                        // }
                     } else if (i == 2) {
                         if (!config.showCriticalHint) {
                             config.warning_threshold = 40;
@@ -166,6 +202,64 @@ class TouchSelection {
                 cv.overlay.scale(0.3);
                 cv.overlay.pop();
                 cv.overlay.arc(this.savedPosition[0], this.savedPosition[1], ringR, ringR, deg - seg * 0.8, deg);
+            }
+
+            this.prevSelectionMode = this.leapSelectionMode;
+            cv.overlay.pop();
+            return;
+        } else if (this.leapSelectionMode && this.hand[9] == 0) //left!
+        {
+            if (this.prevSelectionMode == 0) {
+                this.savedPosition = [this.position[0], this.position[1]]
+            }
+            cv.overlay.blendMode(ADD);
+            cv.overlay.push();
+            cv.overlay.rectMode(CENTER);
+            cv.overlay.noFill();
+            cv.overlay.stroke(255);
+            cv.overlay.strokeWeight(3);
+            cv.overlay.ellipse(this.savedPosition[0], this.savedPosition[1], 200, 200);
+            cv.overlay.line(this.tip[0], this.tip[1], this.savedPosition[0], this.savedPosition[1]);
+
+            var vec = createVector(this.savedPosition[0] - this.tip[0], this.savedPosition[1] - this.tip[1]);
+            var heading = vec.heading();
+            var deg = -3.4;
+            var seg = 0.5;
+            var ringR = 150 * 2;
+            cv.overlay.imageMode(CENTER);
+            cv.overlay.strokeCap(SQUARE);
+            // deg += 0.3;
+            // ringR = 190 * 2;
+            if (func_mapper[config.view]) {
+                for (var i in func_mapper[config.view]) {
+                    deg += seg;
+                    var s = sin(deg) * ringR;
+                    var c = cos(deg) * ringR;
+                    var sel = abs(heading - PI - (deg - seg * 0.4)) < seg / 2;
+                    if (sel && this.hand[8]) {
+                        //clicked
+                        // config.view = i;
+                        config.upscreen = func_mapper[config.view][i];
+                    }
+                    cv.overlay.noFill();
+                    cv.overlay.strokeWeight(70);
+                    cv.overlay.stroke(config.upscreen == func_mapper[config.view][i] ? 1 : 255, 255, sel ? 0 : 255, config.upscreen == func_mapper[config.view][i] ? 170 : (sel ? 150 : 100));
+                    cv.overlay.push();
+                    cv.overlay.translate(this.savedPosition[0], this.savedPosition[1]);
+                    cv.overlay.rotate(deg - seg * 0.4 + PI);
+                    cv.overlay.translate(-ringR / 2, 0);
+                    cv.overlay.rotate(- PI / 2);
+                    // cv.overlay.scale(0.3);
+
+                    cv.overlay.textAlign(CENTER, CENTER);
+                    cv.overlay.fill(255);
+                    cv.overlay.noStroke();
+                    cv.overlay.textSize(13);
+                    cv.overlay.text(i, 0, 0);
+                    // cv.overlay.image(mapper[i], 0, 0);
+                    cv.overlay.pop();
+                    cv.overlay.arc(this.savedPosition[0], this.savedPosition[1], ringR, ringR, deg - seg * 0.8, deg);
+                }
             }
 
             this.prevSelectionMode = this.leapSelectionMode;

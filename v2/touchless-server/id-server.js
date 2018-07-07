@@ -5,10 +5,14 @@ var io = require('socket.io')(server);
 server.listen(8988);
 
 var display = io.of("/display");
+var config = io.of("/config");
 
 io.on('connection', function (socket) {
     socket.on("pack", function (data) {
         display.emit("pack", data);
+    });
+    socket.on("config", function (data) {
+        config.emit("config", data);
     });
     socket.on("selections", function (data) {
         display.emit("selections", data);

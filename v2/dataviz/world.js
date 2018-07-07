@@ -279,8 +279,8 @@ class Chunk {
         this.val2 = 0;
     }
     update(t) {
-        this.group.position.x = -(this.position[0] - 1920 / 2);
-        this.group.position.y = (this.position[1] - 960 / 2);
+        this.group.position.x = (this.position[0] - 1920 / 2);
+        this.group.position.y = -(this.position[1] - 960 / 2);
         chunkVerts.vertices[this.index].x = this.group.position.x;
         chunkVerts.vertices[this.index].y = this.group.position.y;
         chunkVerts2.vertices[this.index].x = this.group.position.x;
@@ -321,6 +321,22 @@ class Chunk {
         chunkVerts2.colors[this.index].setHSL(
             0.5 + this.val2 / 50, 0.3, Math.abs(this.val2) / 30 + 0.1
         );
+
+        for (var i = 0; i < selections.selectors.length; i++) {
+            if (selections.selectors[i].indexOf(this.index) >= 0) {
+                chunkVerts2.colors[this.index].setHSL(
+                    1, 1, 1
+                );
+
+
+                this.mat2.color.r = 0.2;
+                this.mat2.color.g = 0.2;
+                this.mat2.color.b = 0.2;
+
+
+                break;
+            }
+        }
 
         // this.mesh2.position.z = 0;
     }
